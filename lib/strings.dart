@@ -16,3 +16,5 @@ String sBirthDate = ' تاريخ الولادة';
 String sBirthDateDay = 'اليوم';
 String sBirthDateMonth = 'الشهر';
 String sBirthDateYear = 'السنة';
+String sIdNumber = 'رقم الهوية';
+String sPeriodToAdd = 'مدة الاشتراك بالاشهر';

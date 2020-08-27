@@ -23,15 +23,17 @@ class AddMember extends StatefulWidget {
 class _AddMemberState extends State<AddMember> {
   Gender selectedGender;
   int height = 180;
-  int currentWeight = 60;
-  int requestedWeight = 60;
+  int currentWeight = 80;
+  int requestedWeight = 80;
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
+  int periodToAdd = 1;
   String firstName;
   String lastName;
   String city;
   String phoneNumber;
+  String idNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +102,26 @@ class _AddMemberState extends State<AddMember> {
                       onChanged: (text) {
                         setState(() {
                           phoneNumber = text;
+                        });
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: new TextField(
+                      textAlign: TextAlign.right,
+                      decoration: new InputDecoration(
+                        labelText: sIdNumber,
+                      ),
+                      onChanged: (text) {
+                        setState(() {
+                          idNumber = text;
                         });
                       },
                       keyboardType: TextInputType.number,
@@ -378,22 +400,62 @@ class _AddMemberState extends State<AddMember> {
               ],
             ),
           ),
+          Expanded(
+            child: ReusableCard(
+              colour: kActiveCardColour,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    sPeriodToAdd,
+                    style: kLabelTextStyle,
+                  ),
+                  Text(
+                    periodToAdd.toString(),
+                    style: kNumberTextStyle,
+                  ),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      inactiveTrackColor: Color(0xFF8D8E98),
+                      activeTrackColor: Colors.white,
+                      thumbColor: kButtonsColor,
+                      overlayColor: Color(0x29EC801A),
+                      thumbShape:
+                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                      overlayShape:
+                          RoundSliderOverlayShape(overlayRadius: 30.0),
+                    ),
+                    child: Slider(
+                      value: periodToAdd.toDouble(),
+                      min: 1,
+                      max: 12,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          periodToAdd = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           BottomButton(
             buttonTitle: sAddMember,
             onTap: () {
               addUserToFirebase(
-                selectedGender,
-                height,
-                currentWeight,
-                requestedWeight,
-                birthdayDay,
-                birthdayMonth,
-                birthdayYear,
-                firstName,
-                lastName,
-                city,
-                phoneNumber,
-              );
+                  selectedGender,
+                  height,
+                  currentWeight,
+                  requestedWeight,
+                  birthdayDay,
+                  birthdayMonth,
+                  birthdayYear,
+                  firstName,
+                  lastName,
+                  city,
+                  phoneNumber,
+                  periodToAdd);
             },
           ),
         ],
@@ -401,3 +463,58 @@ class _AddMemberState extends State<AddMember> {
     );
   }
 }
+
+//onTap: () {
+//showDialog(
+//context: context,
+//builder: (BuildContext context) {
+//var _formKey;
+//return AlertDialog(
+//content: Stack(
+//overflow: Overflow.visible,
+//children: <Widget>[
+//Positioned(
+//right: -40.0,
+//top: -40.0,
+//child: InkResponse(
+//onTap: () {
+//Navigator.of(context).pop();
+//},
+//child: CircleAvatar(
+//child: Icon(Icons.close),
+//backgroundColor: Colors.red,
+//),
+//),
+//),
+//Form(
+//key: _formKey,
+//child: Column(
+//mainAxisSize: MainAxisSize.min,
+//children: <Widget>[
+//Padding(
+//padding: EdgeInsets.all(8.0),
+//child: TextFormField(),
+//),
+//Padding(
+//padding: EdgeInsets.all(8.0),
+//child: TextFormField(),
+//),
+//Padding(
+//padding: const EdgeInsets.all(8.0),
+//child: RaisedButton(
+//child: Text("Submitß"),
+//onPressed: () {
+//if (_formKey.currentState.validate()) {
+//_formKey.currentState.save();
+//}
+//},
+//),
+//)
+//],
+//),
+//),
+//],
+//),
+//);
+//});
+//},
