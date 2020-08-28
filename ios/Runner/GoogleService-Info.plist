@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>599319273415-an16fkftomlt127nlhccr60bb286se0q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.599319273415-an16fkftomlt127nlhccr60bb286se0q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCSes7gPHKnaWZPUMe-KSYjca8qjD_XqdA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>599319273415</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.countryTotCasher</string>
+	<key>PROJECT_ID</key>
+	<string>casherapp-8554a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>casherapp-8554a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:599319273415:ios:f64bbc17b1c16fc65e43e2</string>
+	<key>DATABASE_URL</key>
+	<string>https://casherapp-8554a.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "599319273415",
+    "firebase_url": "https://casherapp-8554a.firebaseio.com",
+    "project_id": "casherapp-8554a",
+    "storage_bucket": "casherapp-8554a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599319273415:android:25438a2ec6041f515e43e2",
+        "android_client_info": {
+          "package_name": "com.example.country_tot_casher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599319273415-g2oo9bi2n47j0eqbasv21o2hon0lmt12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlLu5Wur9cY6dACItrYTmZlHdUnHWV-m8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599319273415-g2oo9bi2n47j0eqbasv21o2hon0lmt12.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599319273415-an16fkftomlt127nlhccr60bb286se0q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.countryTotCasher"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
