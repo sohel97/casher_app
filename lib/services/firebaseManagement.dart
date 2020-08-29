@@ -19,19 +19,19 @@ Future<bool> addNewMember(
 }
 
 void addUserToFirebase(
-  Gender selectedGender,
-  int height,
-  int currentWeight,
-  int requestedWeight,
-  int birthdayDay,
-  int birthdayMonth,
-  int birthdayYear,
-  String firstName,
-  String lastName,
-  String city,
-  String phoneNumber,
-  int perioToAdd,
-) {
+    Gender selectedGender,
+    int height,
+    int currentWeight,
+    int requestedWeight,
+    int birthdayDay,
+    int birthdayMonth,
+    int birthdayYear,
+    String firstName,
+    String lastName,
+    String city,
+    String phoneNumber,
+    int perioToAdd,
+    String id) {
   var newMem = new Member(
       firstName,
       lastName,
@@ -41,11 +41,11 @@ void addUserToFirebase(
       currentWeight,
       requestedWeight,
       height,
-      calculateAge(new DateTime(birthdayYear, birthdayMonth, birthdayDay)),
+      new DateTime(birthdayYear, birthdayMonth, birthdayDay),
       DateTime.now(),
       new DateTime(DateTime.now().year, DateTime.now().month + perioToAdd,
           DateTime.now().day),
-      getRandomString(8));
+      id);
 
   final ref = FirebaseDatabase().reference().child("Customers");
   ref.push().set(newMem.getJson());

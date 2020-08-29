@@ -7,7 +7,7 @@ class Member {
   int currentWeight;
   int requestedWeight;
   int height;
-  int age;
+  DateTime birthDay;
   DateTime membershipStartDate;
   DateTime membershipEndDate;
   String uniqueId;
@@ -20,7 +20,7 @@ class Member {
       int currentWeight,
       int requestedWeight,
       int height,
-      int age,
+      DateTime birthDay,
       DateTime membershipStartDate,
       DateTime membershipEndDate,
       String uniqueId) {
@@ -32,7 +32,7 @@ class Member {
     this.currentWeight = currentWeight;
     this.requestedWeight = requestedWeight;
     this.height = height;
-    this.age = age;
+    this.birthDay = birthDay;
     this.membershipStartDate = membershipStartDate;
     this.membershipEndDate = membershipEndDate;
     this.uniqueId = uniqueId;
@@ -49,7 +49,7 @@ class Member {
       "currentWeight": this.currentWeight,
       "requestedWeight": this.requestedWeight,
       "height": this.height,
-      "age": this.age,
+      "birthDay": this.birthDay,
       "membershipStartDate": this.membershipStartDate.toString(),
       "membershipEndDate": this.membershipEndDate.toString()
     };
