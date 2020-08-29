@@ -3,9 +3,9 @@ import 'package:country_tot_casher/components/icon_content.dart';
 import 'package:country_tot_casher/components/reusable_card.dart';
 import 'package:country_tot_casher/components/round_icon_button.dart';
 import 'package:country_tot_casher/constants.dart';
-import 'package:country_tot_casher/services/firebaseManagement.dart';
+import 'package:country_tot_casher/entities/member.dart';
+import 'package:country_tot_casher/screens/addMemberAdminPage.dart';
 import 'package:country_tot_casher/strings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,19 +21,11 @@ class AddMember extends StatefulWidget {
 }
 
 class _AddMemberState extends State<AddMember> {
-  Gender selectedGender;
-  int height = 180;
-  int currentWeight = 80;
-  int requestedWeight = 80;
+  Member member = new Member();
+  int periodToAdd = 1;
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
-  int periodToAdd = 1;
-  String firstName;
-  String lastName;
-  String city;
-  String phoneNumber;
-  String idNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +48,7 @@ class _AddMemberState extends State<AddMember> {
                       textAlign: TextAlign.right,
                       onChanged: (text) {
                         setState(() {
-                          lastName = text;
+                          member.lastName = text;
                         });
                       },
                       decoration: new InputDecoration(
@@ -78,7 +70,7 @@ class _AddMemberState extends State<AddMember> {
                       ),
                       onChanged: (text) {
                         setState(() {
-                          firstName = text;
+                          member.firstName = text;
                         });
                       },
                     ),
@@ -101,7 +93,7 @@ class _AddMemberState extends State<AddMember> {
                       ),
                       onChanged: (text) {
                         setState(() {
-                          phoneNumber = text;
+                          member.phoneNumber = text;
                         });
                       },
                       keyboardType: TextInputType.number,
@@ -121,7 +113,7 @@ class _AddMemberState extends State<AddMember> {
                       ),
                       onChanged: (text) {
                         setState(() {
-                          idNumber = text;
+                          member.idNumber = text;
                         });
                       },
                       keyboardType: TextInputType.number,
@@ -141,7 +133,7 @@ class _AddMemberState extends State<AddMember> {
                       ),
                       onChanged: (text) {
                         setState(() {
-                          city = text;
+                          member.city = text;
                         });
                       },
                     ),
@@ -160,8 +152,7 @@ class _AddMemberState extends State<AddMember> {
                     child: new TextField(
                       textAlign: TextAlign.right,
                       decoration: new InputDecoration(
-                        labelText: sBirthDateDay,
-                      ),
+                          labelText: sBirthDateDay, hintText: 'DD'),
                       keyboardType: TextInputType.number,
                       onChanged: (text) {
                         setState(() {
@@ -180,8 +171,7 @@ class _AddMemberState extends State<AddMember> {
                     child: new TextField(
                       textAlign: TextAlign.right,
                       decoration: new InputDecoration(
-                        labelText: sBirthDateMonth,
-                      ),
+                          labelText: sBirthDateMonth, hintText: 'MM'),
                       keyboardType: TextInputType.number,
                       onChanged: (text) {
                         setState(() {
@@ -200,8 +190,7 @@ class _AddMemberState extends State<AddMember> {
                     child: new TextField(
                       textAlign: TextAlign.right,
                       decoration: new InputDecoration(
-                        labelText: sBirthDateYear,
-                      ),
+                          labelText: sBirthDateYear, hintText: 'YYYY'),
                       keyboardType: TextInputType.number,
                       onChanged: (text) {
                         setState(() {
@@ -231,10 +220,10 @@ class _AddMemberState extends State<AddMember> {
                 child: ReusableCard(
                   onPress: () {
                     setState(() {
-                      selectedGender = Gender.female;
+                      member.gender = Gender.female;
                     });
                   },
-                  colour: selectedGender == Gender.female
+                  colour: member.gender == Gender.female
                       ? kInactiveCardColour
                       : kActiveCardColour,
                   cardChild: IconContent(
@@ -247,10 +236,10 @@ class _AddMemberState extends State<AddMember> {
                 child: ReusableCard(
                   onPress: () {
                     setState(() {
-                      selectedGender = Gender.male;
+                      member.gender = Gender.male;
                     });
                   },
-                  colour: selectedGender == Gender.male
+                  colour: member.gender == Gender.male
                       ? kInactiveCardColour
                       : kActiveCardColour,
                   cardChild: IconContent(
@@ -275,7 +264,7 @@ class _AddMemberState extends State<AddMember> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          requestedWeight.toString(),
+                          member.requestedWeight.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
@@ -285,7 +274,7 @@ class _AddMemberState extends State<AddMember> {
                                 icon: FontAwesomeIcons.minus,
                                 onPressed: () {
                                   setState(() {
-                                    requestedWeight--;
+                                    member.requestedWeight--;
                                   });
                                 }),
                             SizedBox(
@@ -295,7 +284,7 @@ class _AddMemberState extends State<AddMember> {
                               icon: FontAwesomeIcons.plus,
                               onPressed: () {
                                 setState(() {
-                                  requestedWeight++;
+                                  member.requestedWeight++;
                                 });
                               },
                             ),
@@ -321,7 +310,7 @@ class _AddMemberState extends State<AddMember> {
                           textBaseline: TextBaseline.alphabetic,
                           children: <Widget>[
                             Text(
-                              height.toString(),
+                              member.height.toString(),
                               style: kNumberTextStyle,
                             ),
                             Text(
@@ -342,12 +331,12 @@ class _AddMemberState extends State<AddMember> {
                                 RoundSliderOverlayShape(overlayRadius: 30.0),
                           ),
                           child: Slider(
-                            value: height.toDouble(),
+                            value: member.height.toDouble(),
                             min: 120.0,
                             max: 220.0,
                             onChanged: (double newValue) {
                               setState(() {
-                                height = newValue.round();
+                                member.height = newValue.round();
                               });
                             },
                           ),
@@ -367,7 +356,7 @@ class _AddMemberState extends State<AddMember> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          currentWeight.toString(),
+                          member.currentWeight.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
@@ -377,7 +366,7 @@ class _AddMemberState extends State<AddMember> {
                                 icon: FontAwesomeIcons.minus,
                                 onPressed: () {
                                   setState(() {
-                                    currentWeight--;
+                                    member.currentWeight--;
                                   });
                                 }),
                             SizedBox(
@@ -387,7 +376,7 @@ class _AddMemberState extends State<AddMember> {
                               icon: FontAwesomeIcons.plus,
                               onPressed: () {
                                 setState(() {
-                                  currentWeight++;
+                                  member.currentWeight++;
                                 });
                               },
                             ),
@@ -441,21 +430,20 @@ class _AddMemberState extends State<AddMember> {
             ),
           ),
           BottomButton(
-            buttonTitle: sAddMember,
+            buttonTitle: sNext,
             onTap: () {
-              addUserToFirebase(
-                  selectedGender,
-                  height,
-                  currentWeight,
-                  requestedWeight,
-                  birthdayDay,
-                  birthdayMonth,
-                  birthdayYear,
-                  firstName,
-                  lastName,
-                  city,
-                  phoneNumber,
-                  periodToAdd);
+              member.birthDate =
+                  new DateTime(birthdayYear, birthdayMonth, birthdayDay);
+              member.membershipStartDate = DateTime.now();
+              member.membershipEndDate = DateTime(DateTime.now().year,
+                  DateTime.now().month + periodToAdd, DateTime.now().day);
+//              addUserToFirebase(member);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddMemberAdminPage(member),
+                ),
+              );
             },
           ),
         ],
@@ -463,58 +451,3 @@ class _AddMemberState extends State<AddMember> {
     );
   }
 }
-
-//onTap: () {
-//showDialog(
-//context: context,
-//builder: (BuildContext context) {
-//var _formKey;
-//return AlertDialog(
-//content: Stack(
-//overflow: Overflow.visible,
-//children: <Widget>[
-//Positioned(
-//right: -40.0,
-//top: -40.0,
-//child: InkResponse(
-//onTap: () {
-//Navigator.of(context).pop();
-//},
-//child: CircleAvatar(
-//child: Icon(Icons.close),
-//backgroundColor: Colors.red,
-//),
-//),
-//),
-//Form(
-//key: _formKey,
-//child: Column(
-//mainAxisSize: MainAxisSize.min,
-//children: <Widget>[
-//Padding(
-//padding: EdgeInsets.all(8.0),
-//child: TextFormField(),
-//),
-//Padding(
-//padding: EdgeInsets.all(8.0),
-//child: TextFormField(),
-//),
-//Padding(
-//padding: const EdgeInsets.all(8.0),
-//child: RaisedButton(
-//child: Text("Submitß"),
-//onPressed: () {
-//if (_formKey.currentState.validate()) {
-//_formKey.currentState.save();
-//}
-//},
-//),
-//)
-//],
-//),
-//),
-//],
-//),
-//);
-//});
-//},
