@@ -49,7 +49,7 @@ class Member {
       "currentWeight": this.currentWeight,
       "requestedWeight": this.requestedWeight,
       "height": this.height,
-      "birthDay": this.birthDay,
+      "birthDay": this.birthDay.toString(),
       "membershipStartDate": this.membershipStartDate.toString(),
       "membershipEndDate": this.membershipEndDate.toString()
     };

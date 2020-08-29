@@ -48,6 +48,7 @@ void addUserToFirebase(
       id);
 
   final ref = FirebaseDatabase().reference().child("Customers");
+  print(newMem.getJson());
   ref.push().set(newMem.getJson());
 }
 
