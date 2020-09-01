@@ -102,6 +102,5 @@ convertArabicNumbersToEnglish(String value) {
       }
     }
   }
-  print("Last $value");
   return value;
 }

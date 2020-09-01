@@ -158,7 +158,7 @@ class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
                                 paymentRecord.paidPrice
                             : 0;
                     widget.member.healthCareApproval = healthApproval;
-                    print(widget.member.getArabicString());
+                    print(widget.member.toString());
                     //TODO::addUserToFirebase(member);
                     widget._firstformKey?.currentState?.reset();
                     _formKey.currentState.reset();

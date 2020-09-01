@@ -445,6 +445,7 @@ class _AddMemberState extends State<AddMember> {
               buttonTitle: sNext,
               onTap: () {
                 if (_formKey.currentState.validate()) {
+                  member.paymentRecords.clear();
                   member.birthDate =
                       new DateTime(birthdayYear, birthdayMonth, birthdayDay);
                   member.membershipStartDate = DateTime.now();

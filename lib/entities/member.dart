@@ -1,5 +1,4 @@
 import 'package:country_tot_casher/screens/addMemberPage.dart';
-import 'package:country_tot_casher/strings.dart';
 
 class Member {
   String firstName;
@@ -43,21 +42,21 @@ class Member {
     };
   }
 
-  String getArabicString() {
-    String output = "$sFirstName:\t${this.firstName}\n";
-    output += "$sLastName:\t${this.lastName}\n";
-    output += "$sIdNumber:\t${this.idNumber}\n";
-    output += "$sPhoneNumber:\t${this.phoneNumber}\n";
-    output += "$sCity:\t${this.city}\n";
-    output += "$sGender:\t${this.gender.toString().substring(7)}\n";
-    output += "$sCurrentWeight:\t${this.currentWeight}\n";
-    output += "$sRequestedWeight:\t${this.requestedWeight}\n";
+  String toString() {
+    String output = "FirstName:\t${this.firstName}\n";
+    output += "LastName:\t${this.lastName}\n";
+    output += "IdNumber:\t${this.idNumber}\n";
+    output += "PhoneNumber:\t${this.phoneNumber}\n";
+    output += "City:\t${this.city}\n";
+    output += "Gender:\t${this.gender.toString().substring(7)}\n";
+    output += "CurrentWeight:\t${this.currentWeight}\n";
+    output += "RequestedWeight:\t${this.requestedWeight}\n";
     output +=
-        "$sBirthDate:\t${this.birthDate.day}/${this.birthDate.month}/${this.birthDate.year}\n";
+        "birthDate:\t${this.birthDate.day}/${this.birthDate.month}/${this.birthDate.year}\n";
     output +=
-        "$sMembershipStartDate:\t${this.membershipStartDate.day}/${this.membershipStartDate.month}/${this.membershipStartDate.year}\n";
+        "MembershipStartDate:\t${this.membershipStartDate.day}/${this.membershipStartDate.month}/${this.membershipStartDate.year}\n";
     output +=
-        "$sMembershipEndfDate:\t${this.membershipEndDate.day}/${this.membershipEndDate.month}/${this.membershipEndDate.year}\n";
+        "membershipEndfDate:\t${this.membershipEndDate.day}/${this.membershipEndDate.month}/${this.membershipEndDate.year}\n";
     for (var paymentRecord in paymentRecords) {
       output += "paymentRecord:\t${paymentRecord.toString()}\n";
     }
