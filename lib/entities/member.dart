@@ -14,8 +14,12 @@ class Member {
   DateTime membershipStartDate;
   DateTime membershipEndDate;
   String idNumber;
+  List<PaymentRecord> paymentRecords;
+  int remainingPayment;
+  bool healthCareApproval;
 
   Member() {
+    this.paymentRecords = new List<PaymentRecord>();
     this.height = 180;
     this.currentWeight = 80;
     this.requestedWeight = 80;
@@ -53,6 +57,23 @@ class Member {
         "$sMembershipStartDate:\t${this.membershipStartDate.day}/${this.membershipStartDate.month}/${this.membershipStartDate.year}\n";
     output +=
         "$sMembershipEndfDate:\t${this.membershipEndDate.day}/${this.membershipEndDate.month}/${this.membershipEndDate.year}\n";
+    for (var paymentRecord in paymentRecords) {
+      output += "paymentRecord:\t${paymentRecord.toString()}\n";
+    }
+    output += "remainingPayment:\t${this.remainingPayment}\n";
+    output += "healthCareApproval:\t${this.healthCareApproval}\n";
     return output;
+  }
+}
+
+class PaymentRecord {
+  int requestedPrice;
+  int paidPrice;
+  String note;
+
+  PaymentRecord({this.note, this.requestedPrice, this.paidPrice});
+
+  String toString() {
+    return "requestedPrice=${this.requestedPrice}\n paidPrice=${this.paidPrice}\n note=$note";
   }
 }

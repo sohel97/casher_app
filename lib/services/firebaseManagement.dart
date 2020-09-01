@@ -18,3 +18,10 @@ void addUserToFirebase(Member newMem) {
 //  final ref = FirebaseDatabase().reference().child("Customers");
 //  ref.push().set(newMem.getJson());
 }
+
+bool authenticateWithFirebase(String text) {
+  if (text.hashCode == '1234'.hashCode) {
+    return true;
+  }
+  return false;
+}

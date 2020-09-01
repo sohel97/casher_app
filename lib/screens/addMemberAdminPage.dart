@@ -1,13 +1,13 @@
 import 'package:country_tot_casher/components/bottom_button.dart';
-import 'package:country_tot_casher/components/reusable_card.dart';
 import 'package:country_tot_casher/entities/member.dart';
+import 'package:country_tot_casher/services/validators.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../strings.dart';
 
 class AddMemberAdminPage extends StatefulWidget {
-  Member member;
+  final Member member;
   AddMemberAdminPage(this.member, {Key key})
       : super(key: key); //add also..example this.abc,this...
   @override
@@ -16,134 +16,156 @@ class AddMemberAdminPage extends StatefulWidget {
 
 class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
   bool healthApproval = false;
+  PaymentRecord paymentRecord = new PaymentRecord();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ReusableCard(
-              colour: kActiveCardColour,
-              cardChild: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
+              Row(
                 children: <Widget>[
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      widget.member.getArabicString(),
-                      style: kBodyTextStyle,
+                  Checkbox(
+                    checkColor: Colors.black,
+                    activeColor: Colors.white,
+                    onChanged: (value) {
+                      setState(() {
+                        healthApproval = value;
+                      });
+                    },
+                    value: healthApproval,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new Text(
+                        sHealthApproval,
+                        style: kLargeButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new TextFormField(
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          onChanged: (text) {
+                            setState(() {
+                              paymentRecord.paidPrice = int.parse(text);
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                          decoration: new InputDecoration(
+                            labelText: sPaidPrice,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new TextFormField(
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          onChanged: (text) {
+                            setState(() {
+                              paymentRecord.requestedPrice = int.parse(text);
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                          decoration: new InputDecoration(
+                            labelText: sRequestedPrice,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextField(
-                        textAlign: TextAlign.right,
-                        onChanged: (text) {
-                          setState(() {});
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: new InputDecoration(
-                          labelText: sPaidPrice,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextField(
-                        textAlign: TextAlign.right,
-                        onChanged: (text) {
-                          setState(() {});
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: new InputDecoration(
-                          labelText: sRequestedPrice,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new TextField(
-                    textAlign: TextAlign.right,
-                    onChanged: (text) {
-                      setState(() {});
-                    },
-                    decoration: new InputDecoration(
-                      labelText: sNotes,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Row(
-                  children: <Widget>[
-                    Checkbox(
-                        onChanged: (value) {
-                          setState(() {
-                            healthApproval = value;
-                          });
-                        },
-                        value: healthApproval),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new Text(
-                          sHealthApproval,
-                          style: kLargeButtonTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Directionality(
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: new TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: sPassword,
-                      ),
+                      textAlign: TextAlign.right,
                       onChanged: (text) {
-                        setState(() {});
+                        setState(() {
+                          paymentRecord.note = text;
+                        });
                       },
-                      autofocus: false,
-                      obscureText: true,
-                    )),
+                      decoration: new InputDecoration(
+                        labelText: sNotes,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            BottomButton(
-              buttonTitle: sAddMember,
-              onTap: () {},
-            ),
-          ],
+              Expanded(
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Row(
+                    children: <Widget>[],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new TextFormField(
+                        validator: adminPasswordValidator,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: sPassword,
+                        ),
+//                        onChanged: (text) {
+//                          setState(() {
+//                            authenticateWithFirebase(text);
+//                          });
+//                        },
+                        autofocus: false,
+                        obscureText: true,
+                      )),
+                ),
+              ),
+              BottomButton(
+                buttonTitle: sAddMember,
+                onTap: () {
+                  if (_formKey.currentState.validate()) {
+                    widget.member.paymentRecords.add(paymentRecord);
+
+                    widget.member.remainingPayment =
+                        paymentRecord.requestedPrice - paymentRecord.paidPrice >
+                                0
+                            ? paymentRecord.requestedPrice -
+                                paymentRecord.paidPrice
+                            : 0;
+                    widget.member.healthCareApproval = healthApproval;
+                    print(widget.member.getArabicString());
+                    //addUserToFirebase(member);
+                  } else {
+                    print('not');
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
