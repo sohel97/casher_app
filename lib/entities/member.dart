@@ -23,6 +23,7 @@ class Member {
     this.height = 180;
     this.currentWeight = 80;
     this.requestedWeight = 80;
+    this.gender = Gender.male;
   }
 
   getJson() {

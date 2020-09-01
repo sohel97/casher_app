@@ -31,7 +31,7 @@ class _AddMemberState extends State<AddMember> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       body: Form(
         key: _formKey,
         child: Column(
@@ -453,7 +453,8 @@ class _AddMemberState extends State<AddMember> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddMemberAdminPage(member),
+                      builder: (context) =>
+                          AddMemberAdminPage(member, _formKey),
                     ),
                   );
                 }

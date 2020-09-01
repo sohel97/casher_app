@@ -8,7 +8,8 @@ import '../strings.dart';
 
 class AddMemberAdminPage extends StatefulWidget {
   final Member member;
-  AddMemberAdminPage(this.member, {Key key})
+  final _firstformKey;
+  AddMemberAdminPage(this.member, this._firstformKey, {Key key})
       : super(key: key); //add also..example this.abc,this...
   @override
   _AddMemberAdminPageState createState() => _AddMemberAdminPageState();
@@ -158,9 +159,10 @@ class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
                             : 0;
                     widget.member.healthCareApproval = healthApproval;
                     print(widget.member.getArabicString());
-                    //addUserToFirebase(member);
-                  } else {
-                    print('not');
+                    //TODO::addUserToFirebase(member);
+                    widget._firstformKey?.currentState?.reset();
+                    _formKey.currentState.reset();
+                    Navigator.pop(context);
                   }
                 },
               ),
