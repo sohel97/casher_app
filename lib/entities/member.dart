@@ -1,4 +1,9 @@
-import 'package:country_tot_casher/screens/addMemberPage.dart';
+import 'package:country_tot_casher/services/calculations.dart';
+
+enum Gender {
+  male,
+  female,
+}
 
 class Member {
   String firstName;
@@ -14,7 +19,7 @@ class Member {
   DateTime membershipEndDate;
   String idNumber;
   List<PaymentRecord> paymentRecords;
-  int remainingPayment;
+  int currentBalance;
   bool healthCareApproval;
 
   Member() {
@@ -60,20 +65,47 @@ class Member {
     for (var paymentRecord in paymentRecords) {
       output += "paymentRecord:\t${paymentRecord.toString()}\n";
     }
-    output += "remainingPayment:\t${this.remainingPayment}\n";
+    output += "remainingPayment:\t${this.currentBalance}\n";
     output += "healthCareApproval:\t${this.healthCareApproval}\n";
     return output;
+  }
+
+  void updateBalance(PaymentRecord paymentRecord) {
+    print(paymentRecord.requestedPrice);
+    print(paymentRecord.paidPrice);
+    this.currentBalance +=
+        paymentRecord.paidPrice - paymentRecord.requestedPrice;
+  }
+
+  void updateMembership(int periodToAdd) {
+    if (compareDateTime(this.membershipEndDate, DateTime.now()) == -1) {
+      this.membershipStartDate = DateTime.now();
+      this.membershipEndDate = DateTime(DateTime.now().year,
+          DateTime.now().month + periodToAdd, DateTime.now().day);
+    } else {
+      this.membershipEndDate = DateTime(
+          this.membershipEndDate.year,
+          this.membershipEndDate.month + periodToAdd,
+          this.membershipEndDate.day);
+    }
   }
 }
 
 class PaymentRecord {
-  int requestedPrice;
-  int paidPrice;
-  String note;
-
-  PaymentRecord({this.note, this.requestedPrice, this.paidPrice});
+  int requestedPrice = 0;
+  int paidPrice = 0;
+  String note = '';
+  DateTime dateTime = DateTime.now();
+  PaymentRecord(
+      {this.note, this.requestedPrice, this.paidPrice, this.dateTime}) {}
 
   String toString() {
     return "requestedPrice=${this.requestedPrice}\n paidPrice=${this.paidPrice}\n note=$note";
+  }
+
+  PaymentRecord clone(PaymentRecord paymentRecord) {
+    this.note = paymentRecord.note;
+    this.requestedPrice = paymentRecord.requestedPrice;
+    this.paidPrice = paymentRecord.paidPrice;
   }
 }

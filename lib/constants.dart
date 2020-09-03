@@ -39,3 +39,12 @@ const kBMITextStyle = TextStyle(
 const kBodyTextStyle = TextStyle(
   fontSize: 22.0,
 );
+
+const kPlusTextStyle = TextStyle(
+  color: Colors.green,
+  fontSize: 22.0,
+);
+const kMinusTextStyle = TextStyle(
+  color: Colors.red,
+  fontSize: 22.0,
+);
