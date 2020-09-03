@@ -92,12 +92,17 @@ class Member {
 }
 
 class PaymentRecord {
+  int balance = 0;
   int requestedPrice = 0;
   int paidPrice = 0;
   String note = '';
   DateTime dateTime = DateTime.now();
   PaymentRecord(
-      {this.note, this.requestedPrice, this.paidPrice, this.dateTime}) {}
+      {this.note,
+      this.requestedPrice,
+      this.paidPrice,
+      this.balance,
+      this.dateTime}) {}
 
   String toString() {
     return "requestedPrice=${this.requestedPrice}\n paidPrice=${this.paidPrice}\n note=$note";

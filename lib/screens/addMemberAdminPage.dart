@@ -18,7 +18,11 @@ class AddMemberAdminPage extends StatefulWidget {
 class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
   bool healthApproval = false;
   PaymentRecord paymentRecord = new PaymentRecord(
-      requestedPrice: 0, paidPrice: 0, note: '', dateTime: DateTime.now());
+      requestedPrice: 0,
+      paidPrice: 0,
+      note: '',
+      balance: 0,
+      dateTime: DateTime.now());
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -151,9 +155,17 @@ class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
                 onTap: () {
                   if (_formKey.currentState.validate()) {
                     paymentRecord.dateTime = DateTime.now();
-                    widget.member.paymentRecords.add(paymentRecord);
 
                     widget.member.updateBalance(paymentRecord);
+                    widget.member.paymentRecords.add(
+                      new PaymentRecord(
+                        requestedPrice: paymentRecord.requestedPrice,
+                        paidPrice: paymentRecord.paidPrice,
+                        note: paymentRecord.note,
+                        balance: widget.member.currentBalance,
+                        dateTime: DateTime.now(),
+                      ),
+                    );
                     widget.member.healthCareApproval = healthApproval;
                     print(widget.member.toString());
                     //TODO::addUserToFirebase(member);

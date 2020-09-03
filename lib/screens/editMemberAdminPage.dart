@@ -24,9 +24,17 @@ class _AdminEditMemberState extends State<AdminEditMember> {
   int birthdayYear;
   final _formKey = GlobalKey<FormState>();
   PaymentRecord debtPaymentRecord = new PaymentRecord(
-      requestedPrice: 0, paidPrice: 0, note: '', dateTime: DateTime.now());
+      requestedPrice: 0,
+      paidPrice: 0,
+      note: '',
+      balance: 0,
+      dateTime: DateTime.now());
   PaymentRecord newPaymentRecord = new PaymentRecord(
-      requestedPrice: 0, paidPrice: 0, note: '', dateTime: DateTime.now());
+      requestedPrice: 0,
+      paidPrice: 0,
+      note: '',
+      balance: 0,
+      dateTime: DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -460,6 +468,7 @@ class _AdminEditMemberState extends State<AdminEditMember> {
                                     debtPaymentRecord.requestedPrice,
                                 paidPrice: debtPaymentRecord.paidPrice,
                                 note: debtPaymentRecord.note,
+                                balance: widget.member.currentBalance,
                                 dateTime: DateTime.now(),
                               ),
                             );
@@ -575,6 +584,7 @@ class _AdminEditMemberState extends State<AdminEditMember> {
                               requestedPrice: newPaymentRecord.requestedPrice,
                               paidPrice: newPaymentRecord.paidPrice,
                               note: newPaymentRecord.note,
+                              balance: widget.member.currentBalance,
                               dateTime: DateTime.now()));
                           periodToAdd = 0;
                         });
@@ -612,7 +622,7 @@ class _AdminEditMemberState extends State<AdminEditMember> {
                     textDirection: TextDirection.rtl,
                     child: new ListTile(
                       leading: new Text(
-                          "$sRequestedPrice: ${widget.member.paymentRecords.elementAt(i).requestedPrice}"),
+                          "$sCurrentBalace: ${widget.member.paymentRecords.elementAt(i).balance}"),
                       title: new Text(
                           "$sPaidPrice: ${widget.member.paymentRecords.elementAt(i).paidPrice}"),
                       subtitle: new Text(
