@@ -1,20 +1,3 @@
-//import 'package:flutter/material.dart';
-//
-//class MembersPage extends StatefulWidget {
-//  @override
-//  _MembersPageState createState() => _MembersPageState();
-//}
-//
-//class _MembersPageState extends State<MembersPage> {
-//  double iconSize = 40;
-//  @override
-//  Widget build(BuildContext context) {
-//    return new Scaffold(
-//      body: Container(),
-//    );
-//  }
-//}
-
 import 'package:country_tot_casher/entities/member.dart';
 import 'package:country_tot_casher/screens/editMemberAdminPage.dart';
 import 'package:country_tot_casher/services/calculations.dart';
@@ -34,7 +17,7 @@ class _MembersPageState extends State<MembersPage> {
   void initState() {
     super.initState();
 
-    _userDetails = getAllMembers();
+    getAllMembers().then((value) => {_userDetails = value});
   }
 
   @override
@@ -160,13 +143,14 @@ class _MembersPageState extends State<MembersPage> {
     );
   }
 
-  onSearchTextChanged(String text) async {
+  onSearchTextChanged(String text) {
     _searchResult.clear();
     if (text.isEmpty) {
       setState(() {});
       return;
     }
-    _userDetails = getAllMembers();
+
+    getAllMembers().then((value) => {_userDetails = value});
     _userDetails.forEach((userDetail) {
       if (userDetail.firstName.contains(text) ||
           userDetail.lastName.contains(text) ||

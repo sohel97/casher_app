@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:country_tot_casher/entities/member.dart';
 import 'package:firebase_database/firebase_database.dart';
+
+import '../entities/member.dart';
+import '../entities/member.dart';
+import '../entities/member.dart';
 
 final ref = FirebaseDatabase().reference().child("Customers");
 Future<bool> addNewMember(
@@ -16,11 +22,6 @@ Future<bool> addNewMember(
 
 void addUserToFirebase(Member newMem) {
   ref.child(newMem.idNumber).set(newMem.getJson());
-
-  List<Member> members = new List<Member>();
-  ref.once().then((DataSnapshot snapshot) {
-    print('Data : ${snapshot.value}');
-  });
 }
 
 void editUserToFirebase(Member member) {
@@ -34,14 +35,21 @@ bool authenticateWithFirebase(String text) {
   return false;
 }
 
-List<Member> getAllMembers() {
-  /*
-  List<Member> members = new List<Member>();
-  ref.once().then((DataSnapshot snapshot) {
-    print('Data : ${snapshot.value}');
+Future<List<Member>> getAllMembers() {
+  return ref.once().then((DataSnapshot snapshot) {
+    List<Member> members = new List<Member>();
+    // here you replace List map = snapshot.value with...
+    Map<String, dynamic> mapOfMaps = Map.from(snapshot.value);
+
+    mapOfMaps.values.forEach((value) {
+      members.add(Member.fromMember(Map.from(value)));
+    });
+    return members;
   });
 
-   */
+  //print(members.length);
+
+  /*
   Member first = new Member();
   Member second = new Member();
   Member third = new Member();
@@ -104,6 +112,5 @@ List<Member> getAllMembers() {
   members.add(second);
   members.add(third);
   members.add(first);
-
-  return members;
+*/
 }

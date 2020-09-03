@@ -31,8 +31,9 @@ class Member {
   }
 
   Member.fromMember(var json) {
+    this.paymentRecords = new List<PaymentRecord>();
     this.firstName = json["firstName"];
-    this.lastName = json["lalastName"];
+    this.lastName = json["lastName"];
     this.phoneNumber = json["phoneNumber"];
     this.city = json["city"];
     if (json["gender"] == "male")
@@ -42,13 +43,19 @@ class Member {
     this.currentWeight = json["currentWeight"];
     this.requestedWeight = json["requestedWeight"];
     this.height = json["height"];
-    this.birthDate = DateTime.parse(json["birthday"]);
+    this.birthDate = DateTime.parse(json["birthDate"]);
     this.membershipStartDate = DateTime.parse(json["membershipStartDate"]);
+    print(this.membershipStartDate);
     this.membershipEndDate = DateTime.parse(json["membershipEndDate"]);
     this.idNumber = json["idNumber"];
-    //this.paymentRecords
     this.currentBalance = json["currentBalance"];
     this.healthCareApproval = json["healthCareApproval"];
+    var records = json["records"];
+    Map<String, dynamic> mapOfMaps = Map.from(records);
+
+    mapOfMaps.values.forEach((value) {
+      paymentRecords.add(PaymentRecord.fromPaymentRecord(Map.from(value)));
+    });
   }
   getJson() {
     var jsn = {
@@ -70,18 +77,7 @@ class Member {
     var paymentRecords = {};
     for (var i = 0; i < this.paymentRecords.length; i++) {
       var currPayRec = this.paymentRecords[i];
-      var key = currPayRec.dateTime.year.toString() +
-          "|" +
-          currPayRec.dateTime.month.toString() +
-          "|" +
-          currPayRec.dateTime.day.toString() +
-          "|" +
-          currPayRec.dateTime.hour.toString() +
-          "|" +
-          currPayRec.dateTime.minute.toString() +
-          "|" +
-          currPayRec.dateTime.second.toString();
-      paymentRecords[key] = currPayRec.toString();
+      paymentRecords[currPayRec.getKey()] = currPayRec.getJson();
     }
     jsn["records"] = paymentRecords;
     return jsn;
@@ -144,10 +140,37 @@ class PaymentRecord {
       this.balance,
       this.dateTime}) {}
 
-  PaymentRecord.fromPaymentRecord(var json) {}
+  getKey() {
+    var key = dateTime.year.toString() +
+        "|" +
+        dateTime.month.toString() +
+        "|" +
+        dateTime.day.toString() +
+        "|" +
+        dateTime.hour.toString() +
+        "|" +
+        dateTime.minute.toString() +
+        "|" +
+        dateTime.second.toString();
+    return key;
+  }
 
-  String toString() {
-    return "requestedPrice=${this.requestedPrice}\n paidPrice=${this.paidPrice}\n note=$note";
+  getJson() {
+    return {
+      "note": this.note,
+      "requestedPrice": this.requestedPrice,
+      "paidPrice": this.paidPrice,
+      "balance": this.balance,
+      "dateTime": this.dateTime.toString()
+    };
+  }
+
+  PaymentRecord.fromPaymentRecord(var json) {
+    this.note = json["note"];
+    this.requestedPrice = json["requestedPrice"];
+    this.paidPrice = json["paidPrice"];
+    this.balance = json["balance"];
+    this.dateTime = DateTime.parse(json["dateTime"]);
   }
 
   PaymentRecord clone(PaymentRecord paymentRecord) {
