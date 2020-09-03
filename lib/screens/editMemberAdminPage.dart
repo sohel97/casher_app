@@ -39,6 +39,79 @@ class _AdminEditMemberState extends State<AdminEditMember> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.delete, color: Colors.red),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  final _proccedKey = GlobalKey<FormState>();
+                  return AlertDialog(
+                    content: Stack(
+                      overflow: Overflow.visible,
+                      children: <Widget>[
+                        Form(
+                          key: _proccedKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(sAreYouSureYouWantToDeleteTheUser),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: TextFormField(
+                                    validator: adminPasswordValidator,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: sPassword,
+                                    ),
+                                    autofocus: false,
+                                    obscureText: true,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      child: Text(sYes),
+                                      onPressed: () {
+                                        if (_proccedKey.currentState
+                                            .validate()) {
+                                          deleteUserFromFirebase(widget.member);
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      color: Colors.redAccent,
+                                      child: Text(sNo),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          },
+        ),
+        title: Text(sDeleteUserData),
+        centerTitle: true,
+      ),
       body: Form(
         key: _formKey,
         child: Column(
@@ -519,7 +592,6 @@ class _AdminEditMemberState extends State<AdminEditMember> {
               ),
             ),
             ReusableCard(
-              colour: kActiveCardColour,
               cardChild: Row(
                 children: <Widget>[
                   Expanded(
@@ -639,7 +711,7 @@ class _AdminEditMemberState extends State<AdminEditMember> {
               buttonTitle: sSave,
               onTap: () {
                 if (_formKey.currentState.validate()) {
-                  editUserToFirebase(widget.member);
+                  editUserFromFirebase(widget.member);
                   Navigator.pop(context);
                 }
               },

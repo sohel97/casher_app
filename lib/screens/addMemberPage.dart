@@ -29,435 +29,433 @@ class _AddMemberState extends State<AddMember> {
     return new Scaffold(
       body: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: <Widget>[
-            SizedBox(
-              height: 30.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        onChanged: (text) {
-                          setState(() {
-                            member.lastName = text;
-                          });
-                        },
-                        decoration: new InputDecoration(
-                          labelText: sLastName,
-                        ),
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  height: 30.0,
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sFirstName,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            member.firstName = text;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sPhoneNumber,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            member.phoneNumber = text;
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sIdNumber,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            member.idNumber = text;
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sCity,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            member.city = text;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: dayFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateDay, hintText: 'DD'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayDay = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: monthFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateMonth, hintText: 'MM'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayMonth = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        validator: yearFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateYear, hintText: 'YYYY'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayYear = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      sBirthDate,
-                      style: kLabelTextStyle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-                child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: ReusableCard(
-                    onPress: () {
-                      setState(() {
-                        member.gender = Gender.female;
-                      });
-                    },
-                    colour: member.gender == Gender.female
-                        ? kInactiveCardColour
-                        : kActiveCardColour,
-                    cardChild: IconContent(
-                      icon: FontAwesomeIcons.venus,
-                      label: sFemale,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ReusableCard(
-                    onPress: () {
-                      setState(() {
-                        member.gender = Gender.male;
-                      });
-                    },
-                    colour: member.gender == Gender.male
-                        ? kInactiveCardColour
-                        : kActiveCardColour,
-                    cardChild: IconContent(
-                      icon: FontAwesomeIcons.mars,
-                      label: sMale,
-                    ),
-                  ),
-                ),
-              ],
-            )),
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ReusableCard(
-                      colour: kActiveCardColour,
-                      cardChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            sRequestedWeight,
-                            style: kLabelTextStyle,
-                          ),
-                          Text(
-                            member.requestedWeight.toString(),
-                            style: kNumberTextStyle,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              RoundIconButton(
-                                  icon: FontAwesomeIcons.minus,
-                                  onPressed: () {
-                                    setState(() {
-                                      member.requestedWeight--;
-                                    });
-                                  }),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              RoundIconButton(
-                                icon: FontAwesomeIcons.plus,
-                                onPressed: () {
-                                  setState(() {
-                                    member.requestedWeight++;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ReusableCard(
-                      colour: kActiveCardColour,
-                      cardChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            sHeight,
-                            style: kLabelTextStyle,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: <Widget>[
-                              Text(
-                                member.height.toString(),
-                                style: kNumberTextStyle,
-                              ),
-                              Text(
-                                'cm',
-                                style: kLabelTextStyle,
-                              )
-                            ],
-                          ),
-                          SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              inactiveTrackColor: Color(0xFF8D8E98),
-                              activeTrackColor: Colors.white,
-                              thumbColor: kButtonsColor,
-                              overlayColor: Color(0x29EC801A),
-                              thumbShape: RoundSliderThumbShape(
-                                  enabledThumbRadius: 15.0),
-                              overlayShape:
-                                  RoundSliderOverlayShape(overlayRadius: 30.0),
-                            ),
-                            child: Slider(
-                              value: member.height.toDouble(),
-                              min: 120.0,
-                              max: 220.0,
-                              onChanged: (double newValue) {
-                                setState(() {
-                                  member.height = newValue.round();
-                                });
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ReusableCard(
-                      colour: kActiveCardColour,
-                      cardChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            sCurrentWeight,
-                            style: kLabelTextStyle,
-                          ),
-                          Text(
-                            member.currentWeight.toString(),
-                            style: kNumberTextStyle,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              RoundIconButton(
-                                  icon: FontAwesomeIcons.minus,
-                                  onPressed: () {
-                                    setState(() {
-                                      member.currentWeight--;
-                                    });
-                                  }),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              RoundIconButton(
-                                icon: FontAwesomeIcons.plus,
-                                onPressed: () {
-                                  setState(() {
-                                    member.currentWeight++;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ReusableCard(
-                colour: kActiveCardColour,
-                cardChild: Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      sPeriodToAdd,
-                      style: kLabelTextStyle,
-                    ),
-                    Text(
-                      periodToAdd.toString(),
-                      style: kNumberTextStyle,
-                    ),
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        inactiveTrackColor: Color(0xFF8D8E98),
-                        activeTrackColor: Colors.white,
-                        thumbColor: kButtonsColor,
-                        overlayColor: Color(0x29EC801A),
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 30.0),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: textFieldValidator,
+                            textAlign: TextAlign.right,
+                            onChanged: (text) {
+                              setState(() {
+                                member.lastName = text;
+                              });
+                            },
+                            decoration: new InputDecoration(
+                              labelText: sLastName,
+                            ),
+                          ),
+                        ),
                       ),
-                      child: Slider(
-                        value: periodToAdd.toDouble(),
-                        min: 1,
-                        max: 12,
-                        onChanged: (double newValue) {
-                          setState(() {
-                            periodToAdd = newValue.round();
-                          });
-                        },
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: textFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                              labelText: sFirstName,
+                            ),
+                            onChanged: (text) {
+                              setState(() {
+                                member.firstName = text;
+                              });
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            BottomButton(
-              buttonTitle: sNext,
-              onTap: () {
-                if (_formKey.currentState.validate()) {
-                  member.paymentRecords.clear();
-                  member.birthDate =
-                      new DateTime(birthdayYear, birthdayMonth, birthdayDay);
-                  member.membershipStartDate = DateTime.now();
-                  member.membershipEndDate = DateTime(DateTime.now().year,
-                      DateTime.now().month + periodToAdd, DateTime.now().day);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AddMemberAdminPage(member, _formKey),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: numberFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                              labelText: sPhoneNumber,
+                            ),
+                            onChanged: (text) {
+                              setState(() {
+                                member.phoneNumber = text;
+                              });
+                            },
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                }
-              },
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: numberFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                              labelText: sIdNumber,
+                            ),
+                            onChanged: (text) {
+                              setState(() {
+                                member.idNumber = text;
+                              });
+                            },
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: textFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                              labelText: sCity,
+                            ),
+                            onChanged: (text) {
+                              setState(() {
+                                member.city = text;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: dayFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateDay, hintText: 'DD'),
+                            keyboardType: TextInputType.number,
+                            onChanged: (text) {
+                              setState(() {
+                                birthdayDay = int.parse(text);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: monthFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateMonth, hintText: 'MM'),
+                            keyboardType: TextInputType.number,
+                            onChanged: (text) {
+                              setState(() {
+                                birthdayMonth = int.parse(text);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new TextFormField(
+                            validator: yearFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateYear, hintText: 'YYYY'),
+                            keyboardType: TextInputType.number,
+                            onChanged: (text) {
+                              setState(() {
+                                birthdayYear = int.parse(text);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          sBirthDate,
+                          style: kLabelTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: ReusableCard(
+                        onPress: () {
+                          setState(() {
+                            member.gender = Gender.female;
+                          });
+                        },
+                        colour: member.gender == Gender.female
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.venus,
+                          label: sFemale,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        onPress: () {
+                          setState(() {
+                            member.gender = Gender.male;
+                          });
+                        },
+                        colour: member.gender == Gender.male
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.mars,
+                          label: sMale,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: ReusableCard(
+                        colour: kActiveCardColour,
+                        cardChild: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              sRequestedWeight,
+                              style: kLabelTextStyle,
+                            ),
+                            Text(
+                              member.requestedWeight.toString(),
+                              style: kNumberTextStyle,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                RoundIconButton(
+                                    icon: FontAwesomeIcons.minus,
+                                    onPressed: () {
+                                      setState(() {
+                                        member.requestedWeight--;
+                                      });
+                                    }),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  onPressed: () {
+                                    setState(() {
+                                      member.requestedWeight++;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        colour: kActiveCardColour,
+                        cardChild: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              sHeight,
+                              style: kLabelTextStyle,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: <Widget>[
+                                Text(
+                                  member.height.toString(),
+                                  style: kNumberTextStyle,
+                                ),
+                                Text(
+                                  'cm',
+                                  style: kLabelTextStyle,
+                                )
+                              ],
+                            ),
+                            SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                inactiveTrackColor: Color(0xFF8D8E98),
+                                activeTrackColor: Colors.white,
+                                thumbColor: kButtonsColor,
+                                overlayColor: Color(0x29EC801A),
+                                thumbShape: RoundSliderThumbShape(
+                                    enabledThumbRadius: 15.0),
+                                overlayShape: RoundSliderOverlayShape(
+                                    overlayRadius: 30.0),
+                              ),
+                              child: Slider(
+                                value: member.height.toDouble(),
+                                min: 120.0,
+                                max: 220.0,
+                                onChanged: (double newValue) {
+                                  setState(() {
+                                    member.height = newValue.round();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        colour: kActiveCardColour,
+                        cardChild: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              sCurrentWeight,
+                              style: kLabelTextStyle,
+                            ),
+                            Text(
+                              member.currentWeight.toString(),
+                              style: kNumberTextStyle,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                RoundIconButton(
+                                    icon: FontAwesomeIcons.minus,
+                                    onPressed: () {
+                                      setState(() {
+                                        member.currentWeight--;
+                                      });
+                                    }),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  onPressed: () {
+                                    setState(() {
+                                      member.currentWeight++;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ReusableCard(
+                  colour: kActiveCardColour,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        sPeriodToAdd,
+                        style: kLabelTextStyle,
+                      ),
+                      Text(
+                        periodToAdd.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          inactiveTrackColor: Color(0xFF8D8E98),
+                          activeTrackColor: Colors.white,
+                          thumbColor: kButtonsColor,
+                          overlayColor: Color(0x29EC801A),
+                          thumbShape:
+                              RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                          overlayShape:
+                              RoundSliderOverlayShape(overlayRadius: 30.0),
+                        ),
+                        child: Slider(
+                          value: periodToAdd.toDouble(),
+                          min: 1,
+                          max: 12,
+                          onChanged: (double newValue) {
+                            setState(() {
+                              periodToAdd = newValue.round();
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomButton(
+        buttonTitle: sNext,
+        onTap: () {
+          if (_formKey.currentState.validate()) {
+            member.paymentRecords.clear();
+            member.birthDate =
+                new DateTime(birthdayYear, birthdayMonth, birthdayDay);
+            member.membershipStartDate = DateTime.now();
+            member.membershipEndDate = DateTime(DateTime.now().year,
+                DateTime.now().month + periodToAdd, DateTime.now().day);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddMemberAdminPage(member, _formKey),
+              ),
+            );
+          }
+        },
       ),
     );
   }

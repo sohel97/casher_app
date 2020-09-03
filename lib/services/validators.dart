@@ -16,6 +16,12 @@ import 'firebaseManagement.dart';
 |  31-Aug-20 Alpha    Sohel   $$1     Created
 /---------------------------------------------------------------------------- */
 
+/*---------------------------------------------------------------------------\
+| Function: textFieldValidator::validators
+| Purpose: validate if the is not empty
+| Input: Field Value
+| Output:  null if its valid otherwise sPleaseEnterText message
+\---------------------------------------------------------------------------*/
 String textFieldValidator(String value) {
   if (value.isEmpty) {
     return sPleaseEnterText;
@@ -23,6 +29,12 @@ String textFieldValidator(String value) {
   return null;
 }
 
+/*---------------------------------------------------------------------------\
+| Function: yearFieldValidator::validators
+| Purpose: validate if the field is a between 1940-2020
+| Input: Field Value
+| Output:  null if its valid year otherwise sPleaseEnterValidYear message
+\---------------------------------------------------------------------------*/
 String yearFieldValidator(String value) {
   try {
     if (value.isEmpty) {
@@ -36,6 +48,12 @@ String yearFieldValidator(String value) {
   return sPleaseEnterValidYear;
 }
 
+/*---------------------------------------------------------------------------\
+| Function: monthFieldValidator::validators
+| Purpose: validate if the field is a between 1-12
+| Input: Field Value
+| Output:  null if its valid month otherwise sPleaseEnterValidMonth message
+\---------------------------------------------------------------------------*/
 String monthFieldValidator(String value) {
   try {
     if (value.isEmpty) {
@@ -49,6 +67,12 @@ String monthFieldValidator(String value) {
   return sPleaseEnterValidMonth;
 }
 
+/*---------------------------------------------------------------------------\
+| Function: dayFieldValidator::validators
+| Purpose: validate if the field is a between 1-31
+| Input: Field Value
+| Output:  null if its valid day otherwise sPleaseEnterValidDay message
+\---------------------------------------------------------------------------*/
 String dayFieldValidator(String value) {
   try {
     if (value.isEmpty) {
@@ -62,6 +86,12 @@ String dayFieldValidator(String value) {
   return sPleaseEnterValidDay;
 }
 
+/*---------------------------------------------------------------------------\
+| Function: numberFieldValidator::validators
+| Purpose: validate if the field contains numbers only
+| Input: Field Value
+| Output:  null if its number otherwise sPleaseEnterValidNumber message
+\---------------------------------------------------------------------------*/
 String numberFieldValidator(String value) {
   try {
     if (value.isEmpty) {
@@ -75,6 +105,12 @@ String numberFieldValidator(String value) {
   return sPleaseEnterValidNumber;
 }
 
+/*---------------------------------------------------------------------------\
+| Function: adminPasswordValidator::validators
+| Purpose: validate the password with firebase
+| Input: string password
+| Output:  null if authenticated otherwise sWrongPassword message
+\---------------------------------------------------------------------------*/
 String adminPasswordValidator(String value) {
   if (value.isEmpty) {
     return sPleaseEnterText;

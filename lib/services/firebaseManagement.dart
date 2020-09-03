@@ -3,6 +3,21 @@ import 'package:firebase_database/firebase_database.dart';
 
 import '../entities/member.dart';
 
+/*----------------------------------------------------------------------------\
+|
+|  Module Details:
+|
+|  Name:     firebaseManagement.dart
+|
+|  Purpose:  firebase management.
+|
+|  History:
+|
+|  Date      Release  Name    Ver.    Comments
+|  --------- -------  -----   -----   -----------------------------------------
+|  31-Aug-20 Alpha    Sohel   $$1     Created
+/---------------------------------------------------------------------------- */
+
 final ref = FirebaseDatabase().reference().child("Customers");
 Future<bool> addNewMember(
     DatabaseReference databaseReference, Member newMember) async {
@@ -20,8 +35,12 @@ void addUserToFirebase(Member newMem) {
   ref.child(newMem.idNumber).set(newMem.getJson());
 }
 
-void editUserToFirebase(Member member) {
+void editUserFromFirebase(Member member) {
   //TODO: Edit user
+}
+
+void deleteUserFromFirebase(Member member) {
+  //TODO: Delete user
 }
 
 bool authenticateWithFirebase(String text) {
@@ -29,6 +48,35 @@ bool authenticateWithFirebase(String text) {
     return true;
   }
   return false;
+}
+
+Future<List<Member>> getLastWeekExpiredMembers() {
+  //TODO: Implemnt this function, returned array must be sorted by newlly expired items
+
+  return ref.once().then((DataSnapshot snapshot) {
+    List<Member> members = new List<Member>();
+    // here you replace List map = snapshot.value with...
+    Map<String, dynamic> mapOfMaps = Map.from(snapshot.value);
+
+    mapOfMaps.values.forEach((value) {
+      members.add(Member.fromMember(Map.from(value)));
+    });
+    return members;
+  });
+}
+
+Future<List<Member>> getThisWeekExpiringMembers() {
+  //TODO: Implemnt this function, returned array must be sorted by the closer to expire items
+  return ref.once().then((DataSnapshot snapshot) {
+    List<Member> members = new List<Member>();
+    // here you replace List map = snapshot.value with...
+    Map<String, dynamic> mapOfMaps = Map.from(snapshot.value);
+
+    mapOfMaps.values.forEach((value) {
+      members.add(Member.fromMember(Map.from(value)));
+    });
+    return members;
+  });
 }
 
 Future<List<Member>> getAllMembers() {
@@ -110,3 +158,12 @@ Future<List<Member>> getAllMembers() {
   members.add(first);
 */
 }
+
+//TODO: Add documentation in this format to your code Mr. Ameer
+//TODO: when you touch a folder please add a comment upside also
+/*---------------------------------------------------------------------------\
+| Function: textFieldValidator::validators
+| Purpose: validate if the is not empty
+| Input: Field Value
+| Output:  null if its valid otherwise sPleaseEnterText message
+\---------------------------------------------------------------------------*/

@@ -1,4 +1,5 @@
 import 'package:country_tot_casher/constants.dart';
+import 'package:country_tot_casher/screens/homePage.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/addMemberPage.dart';
@@ -31,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentPage = 0;
   final List<Widget> _children = [
-    Container(),
+    HomePage(),
     MembersPage(),
     AddMember(),
   ];
