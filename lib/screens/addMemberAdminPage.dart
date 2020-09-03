@@ -4,6 +4,7 @@ import 'package:country_tot_casher/services/validators.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../services/firebaseManagement.dart';
 import '../strings.dart';
 
 class AddMemberAdminPage extends StatefulWidget {
@@ -168,7 +169,7 @@ class _AddMemberAdminPageState extends State<AddMemberAdminPage> {
                     );
                     widget.member.healthCareApproval = healthApproval;
                     print(widget.member.toString());
-                    //TODO::addUserToFirebase(member);
+                    addUserToFirebase(widget.member);
                     widget._firstformKey?.currentState?.reset();
                     _formKey.currentState.reset();
                     Navigator.pop(context);

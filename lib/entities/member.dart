@@ -19,7 +19,7 @@ class Member {
   DateTime membershipEndDate;
   String idNumber;
   List<PaymentRecord> paymentRecords;
-  int currentBalance;
+  int currentBalance = 0;
   bool healthCareApproval;
 
   Member() {
@@ -30,8 +30,28 @@ class Member {
     this.gender = Gender.male;
   }
 
+  Member.fromMember(var json) {
+    this.firstName = json["firstName"];
+    this.lastName = json["lalastName"];
+    this.phoneNumber = json["phoneNumber"];
+    this.city = json["city"];
+    if (json["gender"] == "male")
+      this.gender = Gender.male;
+    else
+      this.gender = Gender.female;
+    this.currentWeight = json["currentWeight"];
+    this.requestedWeight = json["requestedWeight"];
+    this.height = json["height"];
+    this.birthDate = DateTime.parse(json["birthday"]);
+    this.membershipStartDate = DateTime.parse(json["membershipStartDate"]);
+    this.membershipEndDate = DateTime.parse(json["membershipEndDate"]);
+    this.idNumber = json["idNumber"];
+    //this.paymentRecords
+    this.currentBalance = json["currentBalance"];
+    this.healthCareApproval = json["healthCareApproval"];
+  }
   getJson() {
-    return {
+    var jsn = {
       "idNumber": this.idNumber,
       "firstName": this.firstName,
       "lastName": this.lastName,
@@ -41,10 +61,30 @@ class Member {
       "currentWeight": this.currentWeight,
       "requestedWeight": this.requestedWeight,
       "height": this.height,
-      "birthDate": this.birthDate,
+      "birthDate": this.birthDate.toString(),
       "membershipStartDate": this.membershipStartDate.toString(),
-      "membershipEndDate": this.membershipEndDate.toString()
+      "membershipEndDate": this.membershipEndDate.toString(),
+      "healthCareApproval": this.healthCareApproval,
+      "currentBalance": this.currentBalance
     };
+    var paymentRecords = {};
+    for (var i = 0; i < this.paymentRecords.length; i++) {
+      var currPayRec = this.paymentRecords[i];
+      var key = currPayRec.dateTime.year.toString() +
+          "|" +
+          currPayRec.dateTime.month.toString() +
+          "|" +
+          currPayRec.dateTime.day.toString() +
+          "|" +
+          currPayRec.dateTime.hour.toString() +
+          "|" +
+          currPayRec.dateTime.minute.toString() +
+          "|" +
+          currPayRec.dateTime.second.toString();
+      paymentRecords[key] = currPayRec.toString();
+    }
+    jsn["records"] = paymentRecords;
+    return jsn;
   }
 
   String toString() {
@@ -78,7 +118,7 @@ class Member {
   }
 
   void updateMembership(int periodToAdd) {
-    if (compareDateTime(this.membershipEndDate, DateTime.now()) == -1) {
+    if (this.membershipEndDate.isBefore(DateTime.now())) {
       this.membershipStartDate = DateTime.now();
       this.membershipEndDate = DateTime(DateTime.now().year,
           DateTime.now().month + periodToAdd, DateTime.now().day);
@@ -103,6 +143,8 @@ class PaymentRecord {
       this.paidPrice,
       this.balance,
       this.dateTime}) {}
+
+  PaymentRecord.fromPaymentRecord(var json) {}
 
   String toString() {
     return "requestedPrice=${this.requestedPrice}\n paidPrice=${this.paidPrice}\n note=$note";

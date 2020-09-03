@@ -1,6 +1,7 @@
 import 'package:country_tot_casher/entities/member.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+final ref = FirebaseDatabase().reference().child("Customers");
 Future<bool> addNewMember(
     DatabaseReference databaseReference, Member newMember) async {
   DataSnapshot snapshot = await databaseReference.once();
@@ -14,9 +15,12 @@ Future<bool> addNewMember(
 }
 
 void addUserToFirebase(Member newMem) {
-  print(newMem.getJson().toString());
-//  final ref = FirebaseDatabase().reference().child("Customers");
-//  ref.push().set(newMem.getJson());
+  ref.child(newMem.idNumber).set(newMem.getJson());
+
+  List<Member> members = new List<Member>();
+  ref.once().then((DataSnapshot snapshot) {
+    print('Data : ${snapshot.value}');
+  });
 }
 
 void editUserToFirebase(Member member) {
@@ -31,6 +35,13 @@ bool authenticateWithFirebase(String text) {
 }
 
 List<Member> getAllMembers() {
+  /*
+  List<Member> members = new List<Member>();
+  ref.once().then((DataSnapshot snapshot) {
+    print('Data : ${snapshot.value}');
+  });
+
+   */
   Member first = new Member();
   Member second = new Member();
   Member third = new Member();
