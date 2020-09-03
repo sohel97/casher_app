@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:country_tot_casher/entities/member.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../entities/member.dart';
-import '../entities/member.dart';
 import '../entities/member.dart';
 
 final ref = FirebaseDatabase().reference().child("Customers");

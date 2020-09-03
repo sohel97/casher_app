@@ -519,6 +519,7 @@ class _AdminEditMemberState extends State<AdminEditMember> {
               ),
             ),
             ReusableCard(
+              colour: kActiveCardColour,
               cardChild: Row(
                 children: <Widget>[
                   Expanded(

@@ -42,3 +42,4 @@ String sPleaseEnterValidNumber = "الرجاء ادخال ارقام فقط";
 String sWrongPassword = "كلمة المرور خاطئة";
 String sSave = "حفظ";
 String sShekel = "₪";
+String sRefresh = 'تحديث';

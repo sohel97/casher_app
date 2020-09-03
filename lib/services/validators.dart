@@ -67,7 +67,7 @@ String numberFieldValidator(String value) {
     if (value.isEmpty) {
       return sPleaseEnterText;
     }
-    var val = int.parse(value);
+    int.parse(value);
     return null;
   } catch (e) {
     convertArabicNumbersToEnglish(value);

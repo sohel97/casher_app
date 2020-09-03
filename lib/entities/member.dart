@@ -1,5 +1,3 @@
-import 'package:country_tot_casher/services/calculations.dart';
-
 enum Gender {
   male,
   female,
@@ -138,7 +136,7 @@ class PaymentRecord {
       this.requestedPrice,
       this.paidPrice,
       this.balance,
-      this.dateTime}) {}
+      this.dateTime});
 
   getKey() {
     var key = dateTime.year.toString() +
@@ -173,7 +171,7 @@ class PaymentRecord {
     this.dateTime = DateTime.parse(json["dateTime"]);
   }
 
-  PaymentRecord clone(PaymentRecord paymentRecord) {
+  void clone(PaymentRecord paymentRecord) {
     this.note = paymentRecord.note;
     this.requestedPrice = paymentRecord.requestedPrice;
     this.paidPrice = paymentRecord.paidPrice;
