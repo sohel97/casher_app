@@ -52,6 +52,13 @@ class _MembersPageState extends State<MembersPage> {
           ),
         ),
         new Expanded(
+          /*
+          Update: 04/09/2020 12:30 by Ameer
+          remove one ListView (search) and modify the main ListView to fit
+          search and default view members.
+          _userDetails and _searchResult are removed
+
+           */
           child: FutureBuilder(
               future: getAllMembers(text: searchText),
               builder: (context, snapshot) {
@@ -191,8 +198,14 @@ class _MembersPageState extends State<MembersPage> {
     );
   }
 
+/*
+Update: 04/09/2020 12:30 by Ameer
+filtering with text is moved to getAllMembers().
+this function now just update the searching text and reset the state
+ */
   onSearchTextChanged(String text) {
     searchText = text;
+
     /*
     _searchResult.clear();
     if (text.isEmpty) {

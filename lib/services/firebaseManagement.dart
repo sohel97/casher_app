@@ -16,6 +16,7 @@ import '../entities/member.dart';
 |  Date      Release  Name    Ver.    Comments
 |  --------- -------  -----   -----   -----------------------------------------
 |  31-Aug-20 Alpha    Sohel   $$1     Created
+|
 /---------------------------------------------------------------------------- */
 enum OrderBy { WillExpireSoon, Expired }
 final ref = FirebaseDatabase().reference().child("Customers");
@@ -50,16 +51,24 @@ bool authenticateWithFirebase(String text) {
   return false;
 }
 
+//TODO: DONE By Ameer
 Future<List<Member>> getExpiredMembers() {
   //TODO: Implemnt this function, returned array must be sorted by newlly expired items
   return getAllMembers(orderBy: OrderBy.Expired);
 }
 
+//TODO: DONE By Ameer
 Future<List<Member>> getSoonExpireMemberships(int days) {
   //TODO: Implemnt this function, returned array must be sorted by the closer to expire items
   return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
 }
 
+/*
+Update: 04/09/2020 12:30 by Ameer
+Comments: everything related to the members is inside this function, things
+like filtering (expired membership, etc...), and filtering by the search textfield
+from membersPage.dart
+*/
 Future<List<Member>> getAllMembers(
     {OrderBy orderBy, int days, String text = ""}) {
   return ref.once().then((DataSnapshot snapshot) {
