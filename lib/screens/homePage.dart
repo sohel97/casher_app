@@ -18,8 +18,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getLastWeekExpiredMembers().then((value) => {_expiredUsers = value});
-    getThisWeekExpiringMembers().then((value) => {_aboutToExpireUsers = value});
     super.initState();
   }
 
@@ -48,115 +46,146 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 new Expanded(
-                    child: new ListView.builder(
-                  itemCount: _expiredUsers.length,
-                  itemBuilder: (context, index) {
-                    return new Card(
-                      child: InkWell(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Stack(
-                                    overflow: Overflow.visible,
-                                    children: <Widget>[
-                                      Positioned(
-                                        right: -40.0,
-                                        top: -40.0,
-                                        child: InkResponse(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: CircleAvatar(
-                                            child: Icon(Icons.close),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      Form(
-                                        key: _formKey,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Directionality(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                child: TextFormField(
-                                                  validator:
-                                                      adminPasswordValidator,
-                                                  decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    hintText: sPassword,
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: true,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: RaisedButton(
-                                                child: Text(sNext),
-                                                onPressed: () {
-                                                  if (_formKey.currentState
-                                                      .validate()) {
-                                                    Navigator.of(context).pop();
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AdminEditMember(
-                                                                _expiredUsers[
-                                                                    index]),
+                  child: FutureBuilder(
+                      future: getExpiredMembers(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            return new ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return new Card(
+                                  child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              content: Stack(
+                                                overflow: Overflow.visible,
+                                                children: <Widget>[
+                                                  Positioned(
+                                                    right: -40.0,
+                                                    top: -40.0,
+                                                    child: InkResponse(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: CircleAvatar(
+                                                        child:
+                                                            Icon(Icons.close),
+                                                        backgroundColor:
+                                                            Colors.red,
                                                       ),
-                                                    );
-                                                  }
-                                                },
+                                                    ),
+                                                  ),
+                                                  Form(
+                                                    key: _formKey,
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Directionality(
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            child:
+                                                                TextFormField(
+                                                              validator:
+                                                                  adminPasswordValidator,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                hintText:
+                                                                    sPassword,
+                                                              ),
+                                                              autofocus: false,
+                                                              obscureText: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: RaisedButton(
+                                                            child: Text(sNext),
+                                                            onPressed: () {
+                                                              if (_formKey
+                                                                  .currentState
+                                                                  .validate()) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        AdminEditMember(
+                                                                            snapshot.data[index]),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
+                                            );
+                                          });
+                                    },
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: new ListTile(
+                                        leading: new CircleAvatar(
+                                          backgroundImage: new AssetImage(
+                                              snapshot.data[index].gender ==
+                                                      Gender.male
+                                                  ? 'images/maleAvatar.png'
+                                                  : "images/female.png"),
+                                        ),
+                                        title: new Text(
+                                            snapshot.data[index].firstName +
+                                                ' ' +
+                                                snapshot.data[index].lastName),
+                                        subtitle: new Text(
+                                            snapshot.data[index].idNumber),
+                                        trailing: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              sMembershipEndfDate +
+                                                  " " +
+                                                  convertDate(snapshot
+                                                      .data[index]
+                                                      .membershipEndDate),
                                             )
                                           ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
+                                  margin: const EdgeInsets.all(0.0),
                                 );
-                              });
-                        },
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: new ListTile(
-                            leading: new CircleAvatar(
-                              backgroundImage: new AssetImage(
-                                  _expiredUsers[index].gender == Gender.male
-                                      ? 'images/maleAvatar.png'
-                                      : "images/female.png"),
-                            ),
-                            title: new Text(_expiredUsers[index].firstName +
-                                ' ' +
-                                _expiredUsers[index].lastName),
-                            subtitle: new Text(_expiredUsers[index].idNumber),
-                            trailing: Column(
-                              children: <Widget>[
-                                Text(
-                                  sMembershipEndfDate +
-                                      " " +
-                                      convertDate(_expiredUsers[index]
-                                          .membershipEndDate),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      margin: const EdgeInsets.all(0.0),
-                    );
-                  },
-                )),
+                              },
+                            );
+                          case ConnectionState.none:
+                          case ConnectionState.active:
+                          case ConnectionState.waiting:
+                          default:
+                            return new ListView.builder(
+                                itemBuilder: (context, index) {});
+                        }
+                      }),
+                ),
               ],
             ),
           ),
@@ -182,118 +211,146 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 new Expanded(
-                    child: new ListView.builder(
-                  itemCount: _aboutToExpireUsers.length,
-                  itemBuilder: (context, index) {
-                    return new Card(
-                      child: InkWell(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Stack(
-                                    overflow: Overflow.visible,
-                                    children: <Widget>[
-                                      Positioned(
-                                        right: -40.0,
-                                        top: -40.0,
-                                        child: InkResponse(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: CircleAvatar(
-                                            child: Icon(Icons.close),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      Form(
-                                        key: _formKey,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Directionality(
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                child: TextFormField(
-                                                  validator:
-                                                      adminPasswordValidator,
-                                                  decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    hintText: sPassword,
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: true,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: RaisedButton(
-                                                child: Text(sNext),
-                                                onPressed: () {
-                                                  if (_formKey.currentState
-                                                      .validate()) {
-                                                    Navigator.of(context).pop();
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AdminEditMember(
-                                                                _aboutToExpireUsers[
-                                                                    index]),
+                  child: FutureBuilder(
+                      future: getSoonExpireMemberships(7),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            return new ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return new Card(
+                                  child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              content: Stack(
+                                                overflow: Overflow.visible,
+                                                children: <Widget>[
+                                                  Positioned(
+                                                    right: -40.0,
+                                                    top: -40.0,
+                                                    child: InkResponse(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: CircleAvatar(
+                                                        child:
+                                                            Icon(Icons.close),
+                                                        backgroundColor:
+                                                            Colors.red,
                                                       ),
-                                                    );
-                                                  }
-                                                },
+                                                    ),
+                                                  ),
+                                                  Form(
+                                                    key: _formKey,
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Directionality(
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            child:
+                                                                TextFormField(
+                                                              validator:
+                                                                  adminPasswordValidator,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                hintText:
+                                                                    sPassword,
+                                                              ),
+                                                              autofocus: false,
+                                                              obscureText: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: RaisedButton(
+                                                            child: Text(sNext),
+                                                            onPressed: () {
+                                                              if (_formKey
+                                                                  .currentState
+                                                                  .validate()) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        AdminEditMember(
+                                                                            snapshot.data[index]),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
+                                            );
+                                          });
+                                    },
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: new ListTile(
+                                        leading: new CircleAvatar(
+                                          backgroundImage: new AssetImage(
+                                              snapshot.data[index].gender ==
+                                                      Gender.male
+                                                  ? 'images/maleAvatar.png'
+                                                  : "images/female.png"),
+                                        ),
+                                        title: new Text(
+                                            snapshot.data[index].firstName +
+                                                ' ' +
+                                                snapshot.data[index].lastName),
+                                        subtitle: new Text(
+                                            snapshot.data[index].idNumber),
+                                        trailing: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              sMembershipEndfDate +
+                                                  " " +
+                                                  convertDate(snapshot
+                                                      .data[index]
+                                                      .membershipEndDate),
                                             )
                                           ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
+                                  margin: const EdgeInsets.all(0.0),
                                 );
-                              });
-                        },
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: new ListTile(
-                            leading: new CircleAvatar(
-                              backgroundImage: new AssetImage(
-                                  _aboutToExpireUsers[index].gender ==
-                                          Gender.male
-                                      ? 'images/maleAvatar.png'
-                                      : "images/female.png"),
-                            ),
-                            title: new Text(
-                                _aboutToExpireUsers[index].firstName +
-                                    ' ' +
-                                    _aboutToExpireUsers[index].lastName),
-                            subtitle:
-                                new Text(_aboutToExpireUsers[index].idNumber),
-                            trailing: Column(
-                              children: <Widget>[
-                                Text(
-                                  sMembershipEndfDate +
-                                      " " +
-                                      convertDate(_aboutToExpireUsers[index]
-                                          .membershipEndDate),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      margin: const EdgeInsets.all(0.0),
-                    );
-                  },
-                )),
+                              },
+                            );
+                          case ConnectionState.none:
+                          case ConnectionState.active:
+                          case ConnectionState.waiting:
+                          default:
+                            return new ListView.builder(
+                                itemBuilder: (context, index) {});
+                        }
+                      }),
+                ),
               ],
             ),
           ),
