@@ -1,6 +1,6 @@
 import 'package:country_tot_casher/constants.dart';
-import 'package:country_tot_casher/entities/member.dart';
-import 'package:country_tot_casher/screens/editMemberAdminPage.dart';
+import 'package:country_tot_casher/entities/Member.dart';
+import 'package:country_tot_casher/screens/EditMember.dart';
 import 'package:country_tot_casher/services/calculations.dart';
 import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/services/validators.dart';
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                                                   context,
                                                                   MaterialPageRoute(
                                                                     builder: (context) =>
-                                                                        AdminEditMember(
+                                                                        EditMember(
                                                                             snapshot.data[index]),
                                                                   ),
                                                                 );
@@ -181,8 +181,7 @@ class _HomePageState extends State<HomePage> {
                           case ConnectionState.active:
                           case ConnectionState.waiting:
                           default:
-                            return new ListView.builder(
-                                itemBuilder: (context, index) {});
+                            return new ListView();
                         }
                       }),
                 ),
@@ -292,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                                                                   context,
                                                                   MaterialPageRoute(
                                                                     builder: (context) =>
-                                                                        AdminEditMember(
+                                                                        EditMember(
                                                                             snapshot.data[index]),
                                                                   ),
                                                                 );
@@ -346,8 +345,7 @@ class _HomePageState extends State<HomePage> {
                           case ConnectionState.active:
                           case ConnectionState.waiting:
                           default:
-                            return new ListView.builder(
-                                itemBuilder: (context, index) {});
+                            return new ListView();
                         }
                       }),
                 ),
@@ -359,6 +357,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-List<Member> _expiredUsers = [];
-List<Member> _aboutToExpireUsers = [];

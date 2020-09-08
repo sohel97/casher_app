@@ -1,7 +1,7 @@
-import 'package:country_tot_casher/entities/member.dart';
+import 'package:country_tot_casher/entities/Member.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../entities/member.dart';
+import '../entities/Member.dart';
 
 /*----------------------------------------------------------------------------\
 |
@@ -18,6 +18,16 @@ import '../entities/member.dart';
 |  31-Aug-20 Alpha    Sohel   $$1     Created
 |
 /---------------------------------------------------------------------------- */
+
+//TODO: Add documentation in this format to your code Mr. Ameer
+//TODO: when you touch a folder please add a comment upside also
+/*---------------------------------------------------------------------------\
+| Function: textFieldValidator::validators
+| Purpose: validate if the is not empty
+| Input: Field Value
+| Output:  null if its valid otherwise sPleaseEnterText message
+\---------------------------------------------------------------------------*/
+
 enum OrderBy { WillExpireSoon, Expired }
 final ref = FirebaseDatabase().reference().child("Customers");
 Future<bool> addNewMember(
@@ -45,21 +55,18 @@ void deleteUserFromFirebase(Member member) {
 }
 
 bool authenticateWithFirebase(String text) {
+  //TODO: add password
   if (text.hashCode == '1234'.hashCode) {
     return true;
   }
   return false;
 }
 
-//TODO: DONE By Ameer
 Future<List<Member>> getExpiredMembers() {
-  //TODO: Implemnt this function, returned array must be sorted by newlly expired items
   return getAllMembers(orderBy: OrderBy.Expired);
 }
 
-//TODO: DONE By Ameer
 Future<List<Member>> getSoonExpireMemberships(int days) {
-  //TODO: Implemnt this function, returned array must be sorted by the closer to expire items
   return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
 }
 
@@ -110,12 +117,3 @@ Future<List<Member>> getAllMembers(
     return members;
   });
 }
-
-//TODO: Add documentation in this format to your code Mr. Ameer
-//TODO: when you touch a folder please add a comment upside also
-/*---------------------------------------------------------------------------\
-| Function: textFieldValidator::validators
-| Purpose: validate if the is not empty
-| Input: Field Value
-| Output:  null if its valid otherwise sPleaseEnterText message
-\---------------------------------------------------------------------------*/

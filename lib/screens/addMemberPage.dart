@@ -3,8 +3,9 @@ import 'package:country_tot_casher/components/icon_content.dart';
 import 'package:country_tot_casher/components/reusable_card.dart';
 import 'package:country_tot_casher/components/round_icon_button.dart';
 import 'package:country_tot_casher/constants.dart';
-import 'package:country_tot_casher/entities/member.dart';
-import 'package:country_tot_casher/screens/addMemberAdminPage.dart';
+import 'package:country_tot_casher/entities/HistoryRecord.dart';
+import 'package:country_tot_casher/entities/Member.dart';
+import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/services/validators.dart';
 import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,14 @@ class _AddMemberState extends State<AddMember> {
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
+  SubscriptionRecord subscriptionRecord = SubscriptionRecord(
+    startDate: DateTime.now(),
+    endDate: DateTime.now(),
+    note: "",
+    requestedPrice: 0,
+    paidPrice: 0,
+    isNewMember: true,
+  );
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -91,6 +100,9 @@ class _AddMemberState extends State<AddMember> {
                           textDirection: TextDirection.rtl,
                           child: new TextFormField(
                             validator: numberFieldValidator,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             textAlign: TextAlign.right,
                             decoration: new InputDecoration(
                               labelText: sPhoneNumber,
@@ -112,6 +124,9 @@ class _AddMemberState extends State<AddMember> {
                           textDirection: TextDirection.rtl,
                           child: new TextFormField(
                             validator: numberFieldValidator,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             textAlign: TextAlign.right,
                             decoration: new InputDecoration(
                               labelText: sIdNumber,
@@ -435,6 +450,112 @@ class _AddMemberState extends State<AddMember> {
                 ),
               ],
             ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              children: <Widget>[
+                Checkbox(
+                  checkColor: Colors.black,
+                  activeColor: Colors.white,
+                  onChanged: (value) {
+                    setState(() {
+                      member.healthCareApproval = value;
+                    });
+                  },
+                  value: member.healthCareApproval,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: new Text(
+                      sHealthApproval,
+                      style: kLargeButtonTextStyle,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new TextFormField(
+                        validator: numberFieldValidator,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
+                        textAlign: TextAlign.right,
+                        onChanged: (text) {
+                          setState(() {
+                            subscriptionRecord.paidPrice = int.parse(text);
+                          });
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: new InputDecoration(
+                          labelText: sPaidPrice,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new TextFormField(
+                        validator: numberFieldValidator,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
+                        textAlign: TextAlign.right,
+                        onChanged: (text) {
+                          setState(() {
+                            subscriptionRecord.requestedPrice = int.parse(text);
+                          });
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: new InputDecoration(
+                          labelText: sRequestedPrice,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: new TextFormField(
+                  textAlign: TextAlign.right,
+                  onChanged: (text) {
+                    setState(() {
+                      subscriptionRecord.note = text;
+                    });
+                  },
+                  decoration: new InputDecoration(
+                    labelText: sNotes,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: new TextFormField(
+                    validator: adminPasswordValidator,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: sPassword,
+                    ),
+                    autofocus: false,
+                    obscureText: true,
+                  )),
+            ),
           ],
         ),
       ),
@@ -442,18 +563,25 @@ class _AddMemberState extends State<AddMember> {
         buttonTitle: sNext,
         onTap: () {
           if (_formKey.currentState.validate()) {
-            member.paymentRecords.clear();
             member.birthDate =
                 new DateTime(birthdayYear, birthdayMonth, birthdayDay);
-            member.membershipStartDate = DateTime.now();
-            member.membershipEndDate = DateTime(DateTime.now().year,
-                DateTime.now().month + periodToAdd, DateTime.now().day);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddMemberAdminPage(member, _formKey),
-              ),
-            );
+            member.updateMembership(periodToAdd);
+            member.updateBalance(subscriptionRecord.paidPrice,
+                subscriptionRecord.requestedPrice);
+
+            subscriptionRecord.endDate = member.membershipEndDate;
+            subscriptionRecord.update();
+
+            member.history.add(new Record(
+              title: subscriptionRecord.title,
+              type: subscriptionRecord.type,
+              note: subscriptionRecord.note,
+              date: subscriptionRecord.date,
+            ));
+
+            member.history.clear();
+            addUserToFirebase(member);
+            _formKey.currentState.reset();
           }
         },
       ),

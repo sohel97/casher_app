@@ -1,35 +1,81 @@
+import 'HistoryRecord.dart';
+
 enum Gender {
   male,
   female,
 }
 
 class Member {
+  Gender gender;
+  DateTime birthDate;
+  DateTime membershipStartDate;
+  DateTime membershipEndDate;
+  List<HistoryRecord> history;
   String firstName;
   String lastName;
   String phoneNumber;
   String city;
-  Gender gender;
+  String idNumber;
+  String bmi;
   int currentWeight;
   int requestedWeight;
   int height;
-  DateTime birthDate;
-  DateTime membershipStartDate;
-  DateTime membershipEndDate;
-  String idNumber;
-  List<PaymentRecord> paymentRecords;
-  int currentBalance = 0;
+  int earnedCredits;
+  int currentBalance;
   bool healthCareApproval;
 
   Member() {
-    this.paymentRecords = new List<PaymentRecord>();
-    this.height = 180;
+    this.history = new List<HistoryRecord>();
+    this.firstName = '';
+    this.lastName = '';
+    this.phoneNumber = '';
+    this.city = '';
+    this.idNumber = '';
     this.currentWeight = 80;
     this.requestedWeight = 80;
+    this.height = 180;
+    this.earnedCredits = 0;
+    this.currentBalance = 0;
+    this.bmi = calculateBMI();
     this.gender = Gender.male;
+    this.healthCareApproval = false;
+    this.birthDate = DateTime.now();
+    //TODO: delete the field below
+    this.membershipStartDate = DateTime.now();
+    this.membershipEndDate = DateTime.now();
+    history.add(PaymentRecord(
+      paidPrice: 250,
+      note: "cash",
+    ));
+    history.add(SubscriptionRecord(
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      note: 'he paid in cash',
+      requestedPrice: 300,
+      paidPrice: 200,
+      isNewMember: true,
+    ));
+    history.add(SubscriptionRecord(
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      note: 'he paid in cash',
+      requestedPrice: 300,
+      paidPrice: 200,
+      isNewMember: false,
+    ));
+    history.add(PointsUseRecord(
+      pointsBalance: 500,
+      usedPoints: 300,
+      note: 'coupon',
+    ));
+    history.add(PaymentRecord(
+      paidPrice: 100,
+      note: "cash",
+    ));
   }
 
   Member.fromMember(var json) {
-    this.paymentRecords = new List<PaymentRecord>();
+    this.history = new List<PaymentRecord>();
     this.firstName = json["firstName"];
     this.lastName = json["lastName"];
     this.phoneNumber = json["phoneNumber"];
@@ -52,9 +98,16 @@ class Member {
     Map<String, dynamic> mapOfMaps = Map.from(records);
 
     mapOfMaps.values.forEach((value) {
-      paymentRecords.add(PaymentRecord.fromPaymentRecord(Map.from(value)));
+      history.add(Record.fromRecord(Map.from(value)));
     });
   }
+
+  calculateBMI() {
+    this.bmi =
+        (this.currentWeight / ((this.height / 100) * (this.height / 100)))
+            .toStringAsFixed(1);
+  }
+
   getJson() {
     var jsn = {
       "idNumber": this.idNumber,
@@ -73,8 +126,8 @@ class Member {
       "currentBalance": this.currentBalance
     };
     var paymentRecords = {};
-    for (var i = 0; i < this.paymentRecords.length; i++) {
-      var currPayRec = this.paymentRecords[i];
+    for (var i = 0; i < this.history.length; i++) {
+      var currPayRec = this.history[i];
       paymentRecords[currPayRec.getKey()] = currPayRec.getJson();
     }
     jsn["records"] = paymentRecords;
@@ -96,7 +149,7 @@ class Member {
         "MembershipStartDate:\t${this.membershipStartDate.day}/${this.membershipStartDate.month}/${this.membershipStartDate.year}\n";
     output +=
         "membershipEndfDate:\t${this.membershipEndDate.day}/${this.membershipEndDate.month}/${this.membershipEndDate.year}\n";
-    for (var paymentRecord in paymentRecords) {
+    for (var paymentRecord in history) {
       output += "paymentRecord:\t${paymentRecord.toString()}\n";
     }
     output += "remainingPayment:\t${this.currentBalance}\n";
@@ -104,11 +157,9 @@ class Member {
     return output;
   }
 
-  void updateBalance(PaymentRecord paymentRecord) {
-    print(paymentRecord.requestedPrice);
-    print(paymentRecord.paidPrice);
-    this.currentBalance +=
-        paymentRecord.paidPrice - paymentRecord.requestedPrice;
+  void updateBalance(int paidPrice, int requestedPrice) {
+    this.currentBalance += paidPrice - requestedPrice;
+    this.earnedCredits += paidPrice ~/ 10;
   }
 
   void updateMembership(int periodToAdd) {
@@ -122,58 +173,5 @@ class Member {
           this.membershipEndDate.month + periodToAdd,
           this.membershipEndDate.day);
     }
-  }
-}
-
-class PaymentRecord {
-  int balance = 0;
-  int requestedPrice = 0;
-  int paidPrice = 0;
-  String note = '';
-  DateTime dateTime = DateTime.now();
-  PaymentRecord(
-      {this.note,
-      this.requestedPrice,
-      this.paidPrice,
-      this.balance,
-      this.dateTime});
-
-  getKey() {
-    var key = dateTime.year.toString() +
-        "|" +
-        dateTime.month.toString() +
-        "|" +
-        dateTime.day.toString() +
-        "|" +
-        dateTime.hour.toString() +
-        "|" +
-        dateTime.minute.toString() +
-        "|" +
-        dateTime.second.toString();
-    return key;
-  }
-
-  getJson() {
-    return {
-      "note": this.note,
-      "requestedPrice": this.requestedPrice,
-      "paidPrice": this.paidPrice,
-      "balance": this.balance,
-      "dateTime": this.dateTime.toString()
-    };
-  }
-
-  PaymentRecord.fromPaymentRecord(var json) {
-    this.note = json["note"];
-    this.requestedPrice = json["requestedPrice"];
-    this.paidPrice = json["paidPrice"];
-    this.balance = json["balance"];
-    this.dateTime = DateTime.parse(json["dateTime"]);
-  }
-
-  void clone(PaymentRecord paymentRecord) {
-    this.note = paymentRecord.note;
-    this.requestedPrice = paymentRecord.requestedPrice;
-    this.paidPrice = paymentRecord.paidPrice;
   }
 }

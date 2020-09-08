@@ -1,7 +1,12 @@
+import 'package:country_tot_casher/components/HistoryRecordComponent.dart';
+import 'package:country_tot_casher/components/alerts/addPaymentAlert.dart';
+import 'package:country_tot_casher/components/alerts/procced_alert.dart';
+import 'package:country_tot_casher/components/alerts/renew_membership_alert.dart';
+import 'package:country_tot_casher/components/alerts/use_points_alert.dart';
 import 'package:country_tot_casher/components/bottom_button.dart';
-import 'package:country_tot_casher/components/reusable_card.dart';
 import 'package:country_tot_casher/constants.dart';
-import 'package:country_tot_casher/entities/member.dart';
+import 'package:country_tot_casher/entities/HistoryRecord.dart';
+import 'package:country_tot_casher/entities/Member.dart';
 import 'package:country_tot_casher/services/calculations.dart';
 import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/services/validators.dart';
@@ -9,103 +14,42 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AdminEditMember extends StatefulWidget {
-  Member member;
-  AdminEditMember(this.member, {Key key})
+class EditMember extends StatefulWidget {
+  final Member member;
+  EditMember(this.member, {Key key})
       : super(key: key); //add also..example this.abc,this...
   @override
-  _AdminEditMemberState createState() => _AdminEditMemberState();
+  _EditMemberState createState() => _EditMemberState();
 }
 
-class _AdminEditMemberState extends State<AdminEditMember> {
+class _EditMemberState extends State<EditMember> {
   int periodToAdd = 0;
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
   final _formKey = GlobalKey<FormState>();
   PaymentRecord debtPaymentRecord = new PaymentRecord(
-      requestedPrice: 0,
-      paidPrice: 0,
-      note: '',
-      balance: 0,
-      dateTime: DateTime.now());
+    paidPrice: 0,
+    note: '',
+  );
   PaymentRecord newPaymentRecord = new PaymentRecord(
-      requestedPrice: 0,
-      paidPrice: 0,
-      note: '',
-      balance: 0,
-      dateTime: DateTime.now());
+    paidPrice: 0,
+    note: '',
+  );
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
         leading: new IconButton(
-          icon: new Icon(Icons.delete, color: Colors.red),
+          icon: new Icon(Icons.delete, color: Colors.grey),
           onPressed: () {
-            showDialog(
+            nextAlert(
                 context: context,
-                builder: (BuildContext context) {
-                  final _proccedKey = GlobalKey<FormState>();
-                  return AlertDialog(
-                    content: Stack(
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Form(
-                          key: _proccedKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(sAreYouSureYouWantToDeleteTheUser),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: TextFormField(
-                                    validator: adminPasswordValidator,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: sPassword,
-                                    ),
-                                    autofocus: false,
-                                    obscureText: true,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: RaisedButton(
-                                      child: Text(sYes),
-                                      onPressed: () {
-                                        if (_proccedKey.currentState
-                                            .validate()) {
-                                          deleteUserFromFirebase(widget.member);
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: RaisedButton(
-                                      color: Colors.redAccent,
-                                      child: Text(sNo),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                label: sAreYouSureYouWantToDeleteTheUser,
+                callback: () {
+                  deleteUserFromFirebase(widget.member);
+                  Navigator.of(context).pop();
                 });
           },
         ),
@@ -383,7 +327,35 @@ class _AdminEditMemberState extends State<AdminEditMember> {
                 ),
               ],
             ),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Row(
+                children: <Widget>[
+                  Checkbox(
+                    checkColor: Colors.black,
+                    activeColor: Colors.white,
+                    onChanged: (value) {
+                      setState(() {
+                        widget.member.healthCareApproval = value;
+                      });
+                    },
+                    value: widget.member.healthCareApproval,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new Text(
+                        sHealthApproval,
+                        style: kLargeButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Expanded(
                   child: Directionality(
@@ -433,253 +405,109 @@ class _AdminEditMemberState extends State<AdminEditMember> {
                 ),
               ],
             ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                children: <Widget>[
-                  RadioListTile<Gender>(
-                    title: Text(sMale),
-                    value: Gender.male,
-                    groupValue: widget.member.gender,
-                    onChanged: (Gender value) {
-                      setState(() {
-                        widget.member.gender = value;
-                      });
-                    },
-                  ),
-                  RadioListTile<Gender>(
-                    title: Text(sFemale),
-                    value: Gender.female,
-                    groupValue: widget.member.gender,
-                    onChanged: (Gender value) {
-                      setState(() {
-                        widget.member.gender = value;
-                      });
-                    },
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        checkColor: Colors.black,
-                        activeColor: Colors.white,
-                        onChanged: (value) {
-                          setState(() {
-                            widget.member.healthCareApproval = value;
-                          });
-                        },
-                        value: widget.member.healthCareApproval,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: new Text(
-                            sHealthApproval,
+                            sAvailablePoints,
                             style: kLargeButtonTextStyle,
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: new Text(
-                      sCurrentBalace,
-                      style: kLargeButtonTextStyle,
+                        new Text(
+                          "${widget.member.earnedCredits}",
+                          style: kPlusTextStyle,
+                        ),
+                      ],
                     ),
                   ),
-                  new Text(
-                    "${widget.member.currentBalance}$sShekel",
-                    style: widget.member.currentBalance >= 0
-                        ? kPlusTextStyle
-                        : kMinusTextStyle,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new TextFormField(
-                          textAlign: TextAlign.right,
-                          onChanged: (text) {
-                            setState(() {
-                              debtPaymentRecord.paidPrice = int.parse(text);
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            labelText: sAddPayment,
+                ),
+                Expanded(
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Text(
+                            sCurrentBalance,
+                            style: kLargeButtonTextStyle,
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FlatButton(
-                        disabledColor: kButtonsColor,
-                        color: kActiveCardColour,
-                        child: Text(
-                          sAdd,
-                          style: kLargeButtonTextStyle,
+                        new Text(
+                          "${widget.member.currentBalance}$sShekel",
+                          style: widget.member.currentBalance >= 0
+                              ? kPlusTextStyle
+                              : kMinusTextStyle,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            widget.member.updateBalance(debtPaymentRecord);
-
-                            widget.member.paymentRecords.add(
-                              new PaymentRecord(
-                                requestedPrice:
-                                    debtPaymentRecord.requestedPrice,
-                                paidPrice: debtPaymentRecord.paidPrice,
-                                note: debtPaymentRecord.note,
-                                balance: widget.member.currentBalance,
-                                dateTime: DateTime.now(),
-                              ),
-                            );
-                          });
-                        },
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            ReusableCard(
-              colour: kActiveCardColour,
-              cardChild: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    sAddPeriod,
-                    style: kLabelTextStyle,
-                  ),
-                  Text(
-                    periodToAdd.toString(),
-                    style: kNumberTextStyle,
-                  ),
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      inactiveTrackColor: Color(0xFF8D8E98),
-                      activeTrackColor: Colors.white,
-                      thumbColor: kButtonsColor,
-                      overlayColor: Color(0x29EC801A),
-                      thumbShape:
-                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                      overlayShape:
-                          RoundSliderOverlayShape(overlayRadius: 30.0),
-                    ),
-                    child: Slider(
-                      value: periodToAdd.toDouble(),
-                      min: 0,
-                      max: 12,
-                      onChanged: (double newValue) {
-                        setState(() {
-                          periodToAdd = newValue.round();
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ReusableCard(
-              cardChild: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new TextFormField(
-                          textAlign: TextAlign.right,
-                          onChanged: (text) {
-                            setState(() {
-                              newPaymentRecord.paidPrice = int.parse(text);
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            labelText: sPaidPrice,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new TextFormField(
-                          textAlign: TextAlign.right,
-                          onChanged: (text) {
-                            setState(() {
-                              newPaymentRecord.requestedPrice = int.parse(text);
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            labelText: sRequestedPrice,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: FlatButton(
-                      disabledColor: kButtonsColor,
-                      color: kActiveCardColour,
+                    child: RaisedButton(
+                      color: kButtonsColor,
+                      onPressed: () {
+                        addPaymentAlert(
+                          context: context,
+                          member: widget.member,
+                        );
+                      },
                       child: Text(
-                        sRenew,
+                        sAddPayment,
                         style: kLargeButtonTextStyle,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          widget.member.updateBalance(newPaymentRecord);
-                          widget.member.updateMembership(periodToAdd);
-                          widget.member.paymentRecords.add(new PaymentRecord(
-                              requestedPrice: newPaymentRecord.requestedPrice,
-                              paidPrice: newPaymentRecord.paidPrice,
-                              note: newPaymentRecord.note,
-                              balance: widget.member.currentBalance,
-                              dateTime: DateTime.now()));
-                          periodToAdd = 0;
-                        });
-                      },
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextField(
-                        textAlign: TextAlign.right,
-                        onChanged: (text) {
-                          setState(() {
-                            newPaymentRecord.note = text;
-                          });
-                        },
-                        decoration: new InputDecoration(
-                          labelText: sNotes,
-                        ),
+                    child: RaisedButton(
+                      color: kButtonsColor,
+                      onPressed: () {
+                        setState(() {
+                          renewAlert(
+                            context: context,
+                            member: widget.member,
+                          );
+                          widget.member.toString();
+                        });
+                      },
+                      child: Text(
+                        sRenewSubscriptionRecord,
+                        style: kLargeButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      color: kButtonsColor,
+                      onPressed: () {
+                        setState(() {
+                          usePointsAlert(
+                            context: context,
+                            member: widget.member,
+                          );
+                        });
+                      },
+                      child: Text(
+                        sUsePoints,
+                        style: kLargeButtonTextStyle,
                       ),
                     ),
                   ),
@@ -688,22 +516,10 @@ class _AdminEditMemberState extends State<AdminEditMember> {
             ),
             Expanded(
                 child: new ListView.builder(
-              itemCount: widget.member.paymentRecords.length,
+              itemCount: widget.member.history.length,
               itemBuilder: (context, i) {
-                return new Card(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: new ListTile(
-                      leading: new Text(
-                          "$sCurrentBalace: ${widget.member.paymentRecords.elementAt(i).balance}"),
-                      title: new Text(
-                          "$sPaidPrice: ${widget.member.paymentRecords.elementAt(i).paidPrice}"),
-                      subtitle: new Text(
-                          "$sNotes: ${widget.member.paymentRecords.elementAt(i).note}"),
-                      trailing: new Text(
-                          "${convertDate(widget.member.paymentRecords.elementAt(i).dateTime)}"),
-                    ),
-                  ),
+                return HistoryRecordComponent(
+                  historyRecord: widget.member.history.elementAt(i),
                 );
               },
             )),
