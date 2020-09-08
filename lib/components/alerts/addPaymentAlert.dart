@@ -79,7 +79,7 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
                           paymentRecord.paidPrice,
                           0,
                         );
-
+                        paymentRecord.update();
                         widget.member.history.add(new Record(
                           note: paymentRecord.note,
                           title: paymentRecord.title,

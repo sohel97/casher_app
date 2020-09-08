@@ -459,10 +459,12 @@ class _EditMemberState extends State<EditMember> {
                     child: RaisedButton(
                       color: kButtonsColor,
                       onPressed: () {
-                        addPaymentAlert(
-                          context: context,
-                          member: widget.member,
-                        );
+                        setState(() {
+                          addPaymentAlert(
+                            context: context,
+                            member: widget.member,
+                          );
+                        });
                       },
                       child: Text(
                         sAddPayment,
