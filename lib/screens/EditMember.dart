@@ -22,6 +22,7 @@ class EditMember extends StatefulWidget {
   _EditMemberState createState() => _EditMemberState();
 }
 
+//TODO refresh the list below after adding money or points.
 class _EditMemberState extends State<EditMember> {
   int periodToAdd = 0;
   int birthdayDay;
