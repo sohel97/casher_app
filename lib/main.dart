@@ -1,10 +1,8 @@
 import 'package:country_tot_casher/constants.dart';
-import 'package:country_tot_casher/screens/EditMember.dart';
 import 'package:country_tot_casher/screens/homePage.dart';
 import 'package:country_tot_casher/screens/membersPage.dart';
 import 'package:flutter/material.dart';
 
-import 'entities/Member.dart';
 import 'screens/addMemberPage.dart';
 import 'strings.dart';
 
@@ -37,7 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     MembersPage(),
     AddMember(),
-    EditMember(new Member())
   ];
 
   @override
@@ -62,10 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
             new BottomNavigationBarItem(
               icon: const Icon(Icons.perm_contact_calendar),
               title: new Text(sMembers),
-            ),
-            new BottomNavigationBarItem(
-              icon: const Icon(Icons.add_circle_outline),
-              title: new Text(sAddMember),
             ),
             new BottomNavigationBarItem(
               icon: const Icon(Icons.add_circle_outline),

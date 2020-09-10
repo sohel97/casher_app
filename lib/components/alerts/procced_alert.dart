@@ -75,8 +75,8 @@ class TwoOptionAlert extends StatelessWidget {
                         child: Text(leftOption),
                         onPressed: () {
                           if (_proccedKey.currentState.validate()) {
+                            print(callback);
                             callback();
-                            Navigator.of(context).pop();
                           }
                         },
                       ),
