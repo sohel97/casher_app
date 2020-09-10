@@ -1,5 +1,7 @@
 import 'package:country_tot_casher/constants.dart';
 import 'package:country_tot_casher/screens/EditMember.dart';
+import 'package:country_tot_casher/screens/homePage.dart';
+import 'package:country_tot_casher/screens/membersPage.dart';
 import 'package:flutter/material.dart';
 
 import 'entities/Member.dart';
@@ -32,23 +34,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentPage = 0;
   final List<Widget> _children = [
-    // HomePage(),
-
-    EditMember(new Member()),
-    // MembersPage(),
+    HomePage(),
+    MembersPage(),
     AddMember(),
-    Center(
-        child: Container(
-            child: Text(
-      'Empty',
-      style: TextStyle(color: Colors.white, fontSize: 50),
-    ))),
-    Center(
-        child: Container(
-            child: Text(
-      'Empty',
-      style: TextStyle(color: Colors.white, fontSize: 50),
-    ))),
+    EditMember(new Member())
   ];
 
   @override
@@ -79,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
               title: new Text(sAddMember),
             ),
             new BottomNavigationBarItem(
-              icon: const Icon(Icons.query_builder),
-              title: new Text('Test Page'),
+              icon: const Icon(Icons.add_circle_outline),
+              title: new Text(sAddMember),
             ),
           ]),
     );

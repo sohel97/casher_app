@@ -563,6 +563,7 @@ class _AddMemberState extends State<AddMember> {
         buttonTitle: sNext,
         onTap: () {
           if (_formKey.currentState.validate()) {
+            member.history.clear();
             member.birthDate =
                 new DateTime(birthdayYear, birthdayMonth, birthdayDay);
             member.updateMembership(periodToAdd);
@@ -579,7 +580,6 @@ class _AddMemberState extends State<AddMember> {
               date: subscriptionRecord.date,
             ));
 
-            member.history.clear();
             addUserToFirebase(member);
             _formKey.currentState.reset();
           }

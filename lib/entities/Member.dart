@@ -40,56 +40,22 @@ class Member {
     this.gender = Gender.male;
     this.healthCareApproval = false;
     this.birthDate = DateTime.now();
-    //TODO: delete the field below
     this.membershipStartDate = DateTime.now();
     this.membershipEndDate = DateTime.now();
-    history.add(PaymentRecord(
-      paidPrice: 250,
-      note: "cash",
-    ));
-    history.add(SubscriptionRecord(
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      note: 'he paid in cash',
-      requestedPrice: 300,
-      paidPrice: 200,
-      isNewMember: true,
-    ));
-    history.add(SubscriptionRecord(
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      note: 'he paid in cash',
-      requestedPrice: 300,
-      paidPrice: 200,
-      isNewMember: false,
-    ));
-    history.add(PointsUseRecord(
-      pointsBalance: 500,
-      usedPoints: 300,
-      note: 'coupon',
-    ));
-    history.add(PaymentRecord(
-      paidPrice: 100,
-      note: "cash",
-    ));
   }
 
   Member.fromMember(var json) {
-    this.history = new List<PaymentRecord>();
+    this.history = new List<HistoryRecord>();
     this.firstName = json["firstName"];
     this.lastName = json["lastName"];
     this.phoneNumber = json["phoneNumber"];
     this.city = json["city"];
-    if (json["gender"] == "male")
-      this.gender = Gender.male;
-    else
-      this.gender = Gender.female;
+    this.gender = (json["gender"] == "male") ? Gender.male : Gender.female;
     this.currentWeight = json["currentWeight"];
     this.requestedWeight = json["requestedWeight"];
     this.height = json["height"];
     this.birthDate = DateTime.parse(json["birthDate"]);
     this.membershipStartDate = DateTime.parse(json["membershipStartDate"]);
-    print(this.membershipStartDate);
     this.membershipEndDate = DateTime.parse(json["membershipEndDate"]);
     this.idNumber = json["idNumber"];
     this.currentBalance = json["currentBalance"];
@@ -98,7 +64,7 @@ class Member {
     Map<String, dynamic> mapOfMaps = Map.from(records);
 
     mapOfMaps.values.forEach((value) {
-      history.add(Record.fromRecord(Map.from(value)));
+      history.add(new Record.fromRecord(Map.from(value)));
     });
   }
 
@@ -132,29 +98,6 @@ class Member {
     }
     jsn["records"] = paymentRecords;
     return jsn;
-  }
-
-  String toString() {
-    String output = "FirstName:\t${this.firstName}\n";
-    output += "LastName:\t${this.lastName}\n";
-    output += "IdNumber:\t${this.idNumber}\n";
-    output += "PhoneNumber:\t${this.phoneNumber}\n";
-    output += "City:\t${this.city}\n";
-    output += "Gender:\t${this.gender.toString().substring(7)}\n";
-    output += "CurrentWeight:\t${this.currentWeight}\n";
-    output += "RequestedWeight:\t${this.requestedWeight}\n";
-    output +=
-        "birthDate:\t${this.birthDate.day}/${this.birthDate.month}/${this.birthDate.year}\n";
-    output +=
-        "MembershipStartDate:\t${this.membershipStartDate.day}/${this.membershipStartDate.month}/${this.membershipStartDate.year}\n";
-    output +=
-        "membershipEndfDate:\t${this.membershipEndDate.day}/${this.membershipEndDate.month}/${this.membershipEndDate.year}\n";
-    for (var paymentRecord in history) {
-      output += "paymentRecord:\t${paymentRecord.toString()}\n";
-    }
-    output += "remainingPayment:\t${this.currentBalance}\n";
-    output += "healthCareApproval:\t${this.healthCareApproval}\n";
-    return output;
   }
 
   void updateBalance(int paidPrice, int requestedPrice) {

@@ -63,10 +63,12 @@ bool authenticateWithFirebase(String text) {
 }
 
 Future<List<Member>> getExpiredMembers() {
+  print("from get Expires");
   return getAllMembers(orderBy: OrderBy.Expired);
 }
 
 Future<List<Member>> getSoonExpireMemberships(int days) {
+  print("from getSoonExpireMemberships");
   return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
 }
 
@@ -78,7 +80,11 @@ from membersPage.dart
 */
 Future<List<Member>> getAllMembers(
     {OrderBy orderBy, int days, String text = ""}) {
+  print("getting members");
+
   return ref.once().then((DataSnapshot snapshot) {
+//    print("the snapshot key ${snapshot.key}");
+//    print("the snapshot value ${snapshot.value}");
     List<Member> members = new List<Member>();
 
     if (snapshot.value != null) {
@@ -87,7 +93,6 @@ Future<List<Member>> getAllMembers(
       mapOfMaps.values.forEach((value) {
         members.add(Member.fromMember(Map.from(value)));
       });
-      print(members.length);
     }
     members.sort((a, b) => a.membershipEndDate.compareTo(b.membershipEndDate));
     switch (orderBy) {
@@ -113,7 +118,7 @@ Future<List<Member>> getAllMembers(
               element.idNumber.contains(text))
           .toList();
     }
-
+    print("the length:${members.length}");
     return members;
   });
 }

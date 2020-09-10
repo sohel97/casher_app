@@ -1,6 +1,7 @@
 import 'package:country_tot_casher/components/alerts/procced_alert.dart';
 import 'package:country_tot_casher/entities/Member.dart';
 import 'package:country_tot_casher/screens/EditMember.dart';
+import 'package:country_tot_casher/screens/addMemberPage.dart';
 import 'package:country_tot_casher/services/calculations.dart';
 import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/strings.dart';
@@ -74,7 +75,7 @@ class _MembersPageState extends State<MembersPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              EditMember(snapshot.data[index]),
+                                              EditMember(new Member()),
                                         ),
                                       );
                                     });

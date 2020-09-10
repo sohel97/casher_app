@@ -49,6 +49,9 @@ class _HomePageState extends State<HomePage> {
                   child: FutureBuilder(
                       future: getExpiredMembers(),
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData || snapshot.data == null)
+                          return new ListView.builder(
+                              itemBuilder: (context, index) {});
                         switch (snapshot.connectionState) {
                           case ConnectionState.done:
                             return new ListView.builder(
@@ -181,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                           case ConnectionState.active:
                           case ConnectionState.waiting:
                           default:
-                            return new ListView();
+                            print("hello");
+                            return new ListView.builder(
+                                itemBuilder: (context, index) {});
                         }
                       }),
                 ),
@@ -213,6 +218,9 @@ class _HomePageState extends State<HomePage> {
                   child: FutureBuilder(
                       future: getSoonExpireMemberships(7),
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData || snapshot.data == null)
+                          return new ListView.builder(
+                              itemBuilder: (context, index) {});
                         switch (snapshot.connectionState) {
                           case ConnectionState.done:
                             return new ListView.builder(

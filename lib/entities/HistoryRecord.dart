@@ -8,6 +8,7 @@ abstract class HistoryRecord {
   String note;
   String type;
 
+  HistoryRecord();
   void setRecordType();
   void setRecordTitle();
   void setRecordSubtitle();
@@ -62,7 +63,6 @@ class Record extends HistoryRecord {
 
   @override
   void setRecordType() {}
-
   Record.fromRecord(var json) {
     this.note = json["note"];
     this.title = json["title"];
