@@ -6,8 +6,8 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void addPaymentAlert({context, Member member}) {
-  showDialog(
+addPaymentAlert({context, Member member}) {
+  return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AddPaymentRecordAlert(member: member);

@@ -4,8 +4,8 @@ import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 
-void usePointsAlert({context, Member member}) {
-  showDialog(
+usePointsAlert({context, Member member}) {
+  return showDialog(
       context: context,
       builder: (BuildContext context) {
         return UsePointsRecordAlert(member: member);

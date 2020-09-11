@@ -9,8 +9,8 @@ import 'package:flutter/services.dart';
 import '../../constants.dart';
 import '../reusable_card.dart';
 
-void renewAlert({context, Member member}) {
-  showDialog(
+renewAlert({context, Member member}) {
+  return showDialog(
       context: context,
       builder: (BuildContext context) {
         return RenewMembershipRecordAlert(member: member);

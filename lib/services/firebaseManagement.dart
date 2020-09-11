@@ -48,14 +48,16 @@ void addUserToFirebase(Member newMem) {
 
 void editUserFromFirebase(Member member) {
   //TODO: Edit user
+  ref.child(member.idNumber).update(member.getJson());
 }
 
 void deleteUserFromFirebase(Member member) {
-  //TODO: Delete user
+  ref.child(member.idNumber).remove();
 }
 
 bool authenticateWithFirebase(String text) {
   //TODO: add password
+
   if (text.hashCode == '1234'.hashCode) {
     return true;
   }
@@ -71,6 +73,8 @@ Future<List<Member>> getSoonExpireMemberships(int days) {
   print("from getSoonExpireMemberships");
   return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
 }
+
+Future<Member> getUpdatedMember(Member member) {}
 
 /*
 Update: 04/09/2020 12:30 by Ameer

@@ -77,7 +77,7 @@ class _MembersPageState extends State<MembersPage> {
                                           builder: (context) =>
                                               EditMember(snapshot.data[index]),
                                         ),
-                                      );
+                                      ).then((val) => setState(() {}));
                                     });
                               },
                               child: Directionality(

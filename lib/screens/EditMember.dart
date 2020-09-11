@@ -16,10 +16,12 @@ import 'package:flutter/services.dart';
 
 class EditMember extends StatefulWidget {
   final Member member;
+  Future<List<Member>> members;
+  int index;
   EditMember(this.member, {Key key})
       : super(key: key); //add also..example this.abc,this...
-
-  EditMember.fromEditMember(this.member, {Key key}) : super(key: key) {}
+  EditMember.fromEditMember(this.members, this.index, {Key key, this.member})
+      : super(key: key); //add also..example this.abc,this...
   @override
   _EditMemberState createState() => _EditMemberState();
 }
@@ -53,6 +55,7 @@ class _EditMemberState extends State<EditMember> {
                   label: sAreYouSureYouWantToDeleteTheUser,
                   callback: () {
                     deleteUserFromFirebase(widget.member);
+                    Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });
             },
@@ -464,12 +467,10 @@ class _EditMemberState extends State<EditMember> {
                     child: RaisedButton(
                       color: kButtonsColor,
                       onPressed: () {
-                        setState(() {
-                          addPaymentAlert(
-                            context: context,
-                            member: widget.member,
-                          );
-                        });
+                        addPaymentAlert(
+                          context: context,
+                          member: widget.member,
+                        ).then((v) => {setState(() {})});
                       },
                       child: Text(
                         sAddPayment,
@@ -484,13 +485,10 @@ class _EditMemberState extends State<EditMember> {
                     child: RaisedButton(
                       color: kButtonsColor,
                       onPressed: () {
-                        setState(() {
-                          renewAlert(
-                            context: context,
-                            member: widget.member,
-                          );
-                          widget.member.toString();
-                        });
+                        renewAlert(
+                          context: context,
+                          member: widget.member,
+                        ).then((val) => {setState(() {})});
                       },
                       child: Text(
                         sRenewSubscriptionRecord,
@@ -505,12 +503,10 @@ class _EditMemberState extends State<EditMember> {
                     child: RaisedButton(
                       color: kButtonsColor,
                       onPressed: () {
-                        setState(() {
-                          usePointsAlert(
-                            context: context,
-                            member: widget.member,
-                          );
-                        });
+                        usePointsAlert(
+                          context: context,
+                          member: widget.member,
+                        ).then((val) => setState(() {}));
                       },
                       child: Text(
                         sUsePoints,
