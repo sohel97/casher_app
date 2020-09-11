@@ -43,18 +43,20 @@ class _EditMemberState extends State<EditMember> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.delete, color: Colors.grey),
-          onPressed: () {
-            nextAlert(
-                context: context,
-                label: sAreYouSureYouWantToDeleteTheUser,
-                callback: () {
-                  deleteUserFromFirebase(widget.member);
-                  Navigator.of(context).pop();
-                });
-          },
-        ),
+        actions: <Widget>[
+          IconButton(
+            icon: new Icon(Icons.delete, color: Colors.grey),
+            onPressed: () {
+              nextAlert(
+                  context: context,
+                  label: sAreYouSureYouWantToDeleteTheUser,
+                  callback: () {
+                    deleteUserFromFirebase(widget.member);
+                    Navigator.of(context).pop();
+                  });
+            },
+          ),
+        ],
         title: Text(sDeleteUserData),
         centerTitle: true,
       ),

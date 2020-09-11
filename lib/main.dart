@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Generated App',
+      title: sAppName,
       theme: new ThemeData.dark().copyWith(
         accentColor: kButtonsColor,
       ),
