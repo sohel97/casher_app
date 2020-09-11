@@ -6,6 +6,11 @@ import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 
+/*
+By Ameer
+When push the EditMember to the Navigator, i added the ability to refresh the membersPage
+when getting back from EditMember
+ */
 class MembersPage extends StatefulWidget {
   @override
   _MembersPageState createState() => new _MembersPageState();

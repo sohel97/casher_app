@@ -14,6 +14,10 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/*
+By Ameer
+After setState after every return from alert
+ */
 class EditMember extends StatefulWidget {
   final Member member;
   Future<List<Member>> members;

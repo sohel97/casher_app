@@ -16,6 +16,7 @@ import '../entities/Member.dart';
 |  Date      Release  Name    Ver.    Comments
 |  --------- -------  -----   -----   -----------------------------------------
 |  31-Aug-20 Alpha    Sohel   $$1     Created
+|  11-Sep-20 Alpha    Ameer   $$1     Implement firebase functions
 |
 /---------------------------------------------------------------------------- */
 
