@@ -70,6 +70,7 @@ class _MembersPageState extends State<MembersPage> {
                                     label: sPassword,
                                     callback: () {
                                       Navigator.of(context).pop();
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

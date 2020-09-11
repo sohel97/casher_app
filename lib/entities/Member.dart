@@ -60,6 +60,7 @@ class Member {
     this.idNumber = json["idNumber"];
     this.currentBalance = json["currentBalance"];
     this.healthCareApproval = json["healthCareApproval"];
+    this.earnedCredits = json["earnedCredit"];
     var records = json["records"];
     Map<String, dynamic> mapOfMaps = Map.from(records);
 
@@ -89,7 +90,8 @@ class Member {
       "membershipStartDate": this.membershipStartDate.toString(),
       "membershipEndDate": this.membershipEndDate.toString(),
       "healthCareApproval": this.healthCareApproval,
-      "currentBalance": this.currentBalance
+      "currentBalance": this.currentBalance,
+      "earnedCredit": this.earnedCredits
     };
     var paymentRecords = {};
     for (var i = 0; i < this.history.length; i++) {

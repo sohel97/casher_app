@@ -19,6 +19,7 @@ class EditMember extends StatefulWidget {
   EditMember(this.member, {Key key})
       : super(key: key); //add also..example this.abc,this...
 
+  EditMember.fromEditMember(this.member, {Key key}) : super(key: key) {}
   @override
   _EditMemberState createState() => _EditMemberState();
 }
