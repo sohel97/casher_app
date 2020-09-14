@@ -76,271 +76,285 @@ class _EditMemberState extends State<EditMember> {
             SizedBox(
               height: 30.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.lastName,
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.lastName = text;
-                          });
-                        },
-                        decoration: new InputDecoration(
-                          labelText: sLastName,
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.lastName,
+                          validator: textFieldValidator,
+                          textAlign: TextAlign.right,
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.lastName = text;
+                            });
+                          },
+                          decoration: new InputDecoration(
+                            labelText: sLastName,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.firstName,
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sFirstName,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.firstName,
+                          validator: textFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sFirstName,
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.firstName = text;
+                            });
+                          },
                         ),
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.firstName = text;
-                          });
-                        },
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.phoneNumber,
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sPhoneNumber,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.phoneNumber = text;
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.idNumber,
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sIdNumber,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.idNumber = text;
-                          });
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.city,
-                        validator: textFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sCity,
-                        ),
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.city = text;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.birthDate.day.toString(),
-                        validator: dayFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateDay, hintText: 'DD'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayDay = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.birthDate.month.toString(),
-                        validator: monthFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateMonth, hintText: 'MM'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayMonth = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.birthDate.year.toString(),
-                        validator: yearFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                            labelText: sBirthDateYear, hintText: 'YYYY'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            birthdayYear = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      sBirthDate,
-                      style: kLabelTextStyle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.height.toString(),
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sHeight,
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.height = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.requestedWeight.toString(),
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sRequestedWeight,
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.requestedWeight = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: new TextFormField(
-                        initialValue: widget.member.currentWeight.toString(),
-                        validator: numberFieldValidator,
-                        textAlign: TextAlign.right,
-                        decoration: new InputDecoration(
-                          labelText: sCurrentWeight,
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (text) {
-                          setState(() {
-                            widget.member.currentWeight = int.parse(text);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.phoneNumber,
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sPhoneNumber,
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.phoneNumber = text;
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.idNumber,
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sIdNumber,
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.idNumber = text;
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.city,
+                          validator: textFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sCity,
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.city = text;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Text(
+                        sBirthDate,
+                        style: kLabelTextStyle,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.birthDate.day.toString(),
+                          validator: dayFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                              labelText: sBirthDateDay, hintText: 'DD'),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              birthdayDay = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue:
+                              widget.member.birthDate.month.toString(),
+                          validator: monthFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                              labelText: sBirthDateMonth, hintText: 'MM'),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              birthdayMonth = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.birthDate.year.toString(),
+                          validator: yearFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                              labelText: sBirthDateYear, hintText: 'YYYY'),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              birthdayYear = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.height.toString(),
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sHeight,
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.height = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue:
+                              widget.member.requestedWeight.toString(),
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sRequestedWeight,
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.requestedWeight = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: new TextFormField(
+                          initialValue: widget.member.currentWeight.toString(),
+                          validator: numberFieldValidator,
+                          textAlign: TextAlign.right,
+                          decoration: new InputDecoration(
+                            labelText: sCurrentWeight,
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (text) {
+                            setState(() {
+                              widget.member.currentWeight = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
               child: Row(
                 children: <Widget>[
                   Checkbox(
@@ -356,7 +370,7 @@ class _EditMemberState extends State<EditMember> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Directionality(
-                      textDirection: TextDirection.rtl,
+                      textDirection: appDirection,
                       child: new Text(
                         sHealthApproval,
                         style: kLargeButtonTextStyle,
@@ -366,160 +380,169 @@ class _EditMemberState extends State<EditMember> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            sMembershipEndfDate,
-                            style: kLargeButtonTextStyle,
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              sMembershipEndfDate,
+                              style: kLargeButtonTextStyle,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            convertDate(widget.member.membershipEndDate),
-                            style: kLargeButtonTextStyle,
-                          ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              convertDate(widget.member.membershipEndDate),
+                              style: kLargeButtonTextStyle,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            sMembershipStartDate,
-                            style: kLargeButtonTextStyle,
+                  Expanded(
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              sMembershipStartDate,
+                              style: kLargeButtonTextStyle,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            convertDate(widget.member.membershipStartDate),
-                            style: kLargeButtonTextStyle,
-                          ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              convertDate(widget.member.membershipStartDate),
+                              style: kLargeButtonTextStyle,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: new Text(
-                            sAvailablePoints,
-                            style: kLargeButtonTextStyle,
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new Text(
+                              sAvailablePoints,
+                              style: kLargeButtonTextStyle,
+                            ),
                           ),
-                        ),
-                        new Text(
-                          "${widget.member.earnedCredits}",
-                          style: kPlusTextStyle,
-                        ),
-                      ],
+                          new Text(
+                            "${widget.member.earnedCredits}",
+                            style: kPlusTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: new Text(
-                            sCurrentBalance,
-                            style: kLargeButtonTextStyle,
+                  Expanded(
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new Text(
+                              sCurrentBalance,
+                              style: kLargeButtonTextStyle,
+                            ),
                           ),
-                        ),
-                        new Text(
-                          "${widget.member.currentBalance}$sShekel",
-                          style: widget.member.currentBalance >= 0
-                              ? kPlusTextStyle
-                              : kMinusTextStyle,
-                        ),
-                      ],
+                          new Text(
+                            "${widget.member.currentBalance}$sShekel",
+                            style: widget.member.currentBalance >= 0
+                                ? kPlusTextStyle
+                                : kMinusTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      color: kButtonsColor,
-                      onPressed: () {
-                        addPaymentAlert(
-                          context: context,
-                          member: widget.member,
-                        ).then((v) => {setState(() {})});
-                      },
-                      child: Text(
-                        sAddPayment,
-                        style: kLargeButtonTextStyle,
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: () {
+                          addPaymentAlert(
+                            context: context,
+                            member: widget.member,
+                          ).then((v) => {setState(() {})});
+                        },
+                        child: Text(
+                          sAddPayment,
+                          style: kLargeButtonTextStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      color: kButtonsColor,
-                      onPressed: () {
-                        renewAlert(
-                          context: context,
-                          member: widget.member,
-                        ).then((val) => {setState(() {})});
-                      },
-                      child: Text(
-                        sRenewSubscriptionRecord,
-                        style: kLargeButtonTextStyle,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: () {
+                          renewAlert(
+                            context: context,
+                            member: widget.member,
+                          ).then((val) => {setState(() {})});
+                        },
+                        child: Text(
+                          sRenewSubscriptionRecord,
+                          style: kLargeButtonTextStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      color: kButtonsColor,
-                      onPressed: () {
-                        usePointsAlert(
-                          context: context,
-                          member: widget.member,
-                        ).then((val) => setState(() {}));
-                      },
-                      child: Text(
-                        sUsePoints,
-                        style: kLargeButtonTextStyle,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: () {
+                          usePointsAlert(
+                            context: context,
+                            member: widget.member,
+                          ).then((val) => setState(() {}));
+                        },
+                        child: Text(
+                          sUsePoints,
+                          style: kLargeButtonTextStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
                 child: new ListView.builder(

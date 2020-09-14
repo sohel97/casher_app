@@ -6,6 +6,8 @@ import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 /*
 By Ameer
 When push the EditMember to the Navigator, i added the ability to refresh the membersPage
@@ -34,7 +36,7 @@ class _MembersPageState extends State<MembersPage> {
             padding: const EdgeInsets.all(8.0),
             child: new Card(
               child: Directionality(
-                textDirection: TextDirection.rtl,
+                textDirection: appDirection,
                 child: new ListTile(
                   leading: new Icon(Icons.search),
                   title: new TextField(
@@ -86,7 +88,7 @@ class _MembersPageState extends State<MembersPage> {
                                     });
                               },
                               child: Directionality(
-                                textDirection: TextDirection.rtl,
+                                textDirection: appDirection,
                                 child: new ListTile(
                                   leading: new CircleAvatar(
                                     backgroundImage: new AssetImage(

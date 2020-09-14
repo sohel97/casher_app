@@ -6,6 +6,8 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../constants.dart';
+
 addPaymentAlert({context, Member member}) {
   return showDialog(
       context: context,
@@ -37,7 +39,7 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 validator: numberFieldValidator,
                 textAlign: TextAlign.right,
@@ -52,7 +54,7 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
               ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {
@@ -76,8 +78,8 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
                       if (_proccedKey.currentState.validate()) {
                         //Update the member
                         widget.member.updateBalance(
-                          paymentRecord.paidPrice,
-                          0,
+                          paidPrice: paymentRecord.paidPrice,
+                          requestedPrice: 0,
                         );
                         paymentRecord.update();
                         widget.member.history.add(new Record(

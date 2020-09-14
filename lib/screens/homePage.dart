@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: new Card(
                     child: Directionality(
-                      textDirection: TextDirection.rtl,
+                      textDirection: appDirection,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                           });
                                     },
                                     child: Directionality(
-                                      textDirection: TextDirection.rtl,
+                                      textDirection: appDirection,
                                       child: new ListTile(
                                         leading: new CircleAvatar(
                                           backgroundImage: new AssetImage(
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: new Card(
                     child: Directionality(
-                      textDirection: TextDirection.rtl,
+                      textDirection: appDirection,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -316,7 +316,7 @@ class _HomePageState extends State<HomePage> {
                                           });
                                     },
                                     child: Directionality(
-                                      textDirection: TextDirection.rtl,
+                                      textDirection: appDirection,
                                       child: new ListTile(
                                         leading: new CircleAvatar(
                                           backgroundImage: new AssetImage(

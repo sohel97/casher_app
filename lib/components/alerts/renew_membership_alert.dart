@@ -91,7 +91,7 @@ class _RenewMembershipRecordAlertState
               ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 validator: numberFieldValidator,
                 textAlign: TextAlign.right,
@@ -106,7 +106,7 @@ class _RenewMembershipRecordAlertState
               ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 validator: numberFieldValidator,
                 textAlign: TextAlign.right,
@@ -121,7 +121,7 @@ class _RenewMembershipRecordAlertState
               ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {

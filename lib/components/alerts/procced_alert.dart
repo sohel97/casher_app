@@ -1,6 +1,7 @@
 import 'package:country_tot_casher/services/validators.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
 import '../../strings.dart';
 
 void nextAlert({context, callback, String label}) {
@@ -52,7 +53,7 @@ class TwoOptionAlert extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Directionality(
-                    textDirection: TextDirection.rtl,
+                    textDirection: appDirection,
                     child: TextFormField(
                       validator: adminPasswordValidator,
                       decoration: InputDecoration(

@@ -4,6 +4,8 @@ import 'package:country_tot_casher/services/firebaseManagement.dart';
 import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 usePointsAlert({context, Member member}) {
   return showDialog(
       context: context,
@@ -36,7 +38,7 @@ class _UsePointsRecordAlertState extends State<UsePointsRecordAlert> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: TextFormField(
                 validator: (value) {
                   try {
@@ -63,7 +65,7 @@ class _UsePointsRecordAlertState extends State<UsePointsRecordAlert> {
               ),
             ),
             Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: appDirection,
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {

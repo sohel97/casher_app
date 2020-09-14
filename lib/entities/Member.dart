@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'HistoryRecord.dart';
 
 enum Gender {
@@ -102,9 +104,9 @@ class Member {
     return jsn;
   }
 
-  void updateBalance(int paidPrice, int requestedPrice) {
+  void updateBalance({@required int paidPrice, @required int requestedPrice}) {
     this.currentBalance += paidPrice - requestedPrice;
-    this.earnedCredits += paidPrice ~/ 10;
+    this.earnedCredits += (paidPrice / 10).round();
   }
 
   void updateMembership(int periodToAdd) {

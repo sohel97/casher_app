@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const appDirection = TextDirection.rtl;
 const kBottomContainerHeight = 80.0;
 const kActiveCardColour = Colors.white24;
 const kInactiveCardColour = Colors.white10;
