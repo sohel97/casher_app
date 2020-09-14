@@ -205,3 +205,26 @@ class PointsUseRecord extends HistoryRecord {
     this.type = sUsePoints;
   }
 }
+
+class FreezeMembershipRecord extends HistoryRecord {
+  FreezeMembershipRecord({
+    @required note,
+  }) {
+    this.note = note;
+    this.date = DateTime.now();
+    setRecordSubtitle();
+    setRecordTitle();
+    setRecordType();
+  }
+
+  @override
+  void setRecordSubtitle() {}
+
+  @override
+  void setRecordTitle() {}
+
+  @override
+  void setRecordType() {
+    this.type = sFreezeMembership;
+  }
+}

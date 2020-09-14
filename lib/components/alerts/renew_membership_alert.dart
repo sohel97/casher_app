@@ -39,7 +39,7 @@ class _RenewMembershipRecordAlertState
     isNewMember: false,
   );
 
-  int periodToAdd = 1;
+  int monthsToAdd = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _RenewMembershipRecordAlertState
                     style: kLabelTextStyle,
                   ),
                   Text(
-                    periodToAdd.toString(),
+                    monthsToAdd.toString(),
                     style: kNumberTextStyle,
                   ),
                   SliderTheme(
@@ -77,12 +77,12 @@ class _RenewMembershipRecordAlertState
                           RoundSliderOverlayShape(overlayRadius: 30.0),
                     ),
                     child: Slider(
-                      value: periodToAdd.toDouble(),
+                      value: monthsToAdd.toDouble(),
                       min: 1,
                       max: 12,
                       onChanged: (double newValue) {
                         setState(() {
-                          periodToAdd = newValue.round();
+                          monthsToAdd = newValue.round();
                         });
                       },
                     ),
@@ -144,10 +144,10 @@ class _RenewMembershipRecordAlertState
                     onPressed: () {
                       if (_proccedKey.currentState.validate()) {
                         //Update the member
-                        widget.member.updateMembership(periodToAdd);
+                        widget.member.updateMembership(monthsToAdd);
                         widget.member.updateBalance(
-                          subscriptionRecord.paidPrice,
-                          subscriptionRecord.requestedPrice,
+                          paidPrice: subscriptionRecord.paidPrice,
+                          requestedPrice: subscriptionRecord.requestedPrice,
                         );
 
                         //Update the record

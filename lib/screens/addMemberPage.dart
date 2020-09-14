@@ -19,7 +19,7 @@ class AddMember extends StatefulWidget {
 
 class _AddMemberState extends State<AddMember> {
   Member member = new Member();
-  int periodToAdd = 1;
+  int monthsToAdd = 1;
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
@@ -54,39 +54,33 @@ class _AddMemberState extends State<AddMember> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Directionality(
-                            textDirection: appDirection,
-                            child: new TextFormField(
-                              validator: textFieldValidator,
-                              textAlign: TextAlign.right,
-                              onChanged: (text) {
-                                setState(() {
-                                  member.lastName = text;
-                                });
-                              },
-                              decoration: new InputDecoration(
-                                labelText: sLastName,
-                              ),
+                          child: new TextFormField(
+                            validator: textFieldValidator,
+                            textAlign: TextAlign.right,
+                            decoration: new InputDecoration(
+                              labelText: sFirstName,
                             ),
+                            onChanged: (text) {
+                              setState(() {
+                                member.firstName = text;
+                              });
+                            },
                           ),
                         ),
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Directionality(
-                            textDirection: appDirection,
-                            child: new TextFormField(
-                              validator: textFieldValidator,
-                              textAlign: TextAlign.right,
-                              decoration: new InputDecoration(
-                                labelText: sFirstName,
-                              ),
-                              onChanged: (text) {
-                                setState(() {
-                                  member.firstName = text;
-                                });
-                              },
+                          child: new TextFormField(
+                            validator: textFieldValidator,
+                            textAlign: TextAlign.right,
+                            onChanged: (text) {
+                              setState(() {
+                                member.lastName = text;
+                              });
+                            },
+                            decoration: new InputDecoration(
+                              labelText: sLastName,
                             ),
                           ),
                         ),
@@ -435,7 +429,7 @@ class _AddMemberState extends State<AddMember> {
                         style: kLabelTextStyle,
                       ),
                       Text(
-                        periodToAdd.toString(),
+                        monthsToAdd.toString(),
                         style: kNumberTextStyle,
                       ),
                       SliderTheme(
@@ -450,12 +444,12 @@ class _AddMemberState extends State<AddMember> {
                               RoundSliderOverlayShape(overlayRadius: 30.0),
                         ),
                         child: Slider(
-                          value: periodToAdd.toDouble(),
+                          value: monthsToAdd.toDouble(),
                           min: 1,
                           max: 12,
                           onChanged: (double newValue) {
                             setState(() {
-                              periodToAdd = newValue.round();
+                              monthsToAdd = newValue.round();
                             });
                           },
                         ),
@@ -585,9 +579,10 @@ class _AddMemberState extends State<AddMember> {
             member.history.clear();
             member.birthDate =
                 new DateTime(birthdayYear, birthdayMonth, birthdayDay);
-            member.updateMembership(periodToAdd);
-            member.updateBalance(subscriptionRecord.paidPrice,
-                subscriptionRecord.requestedPrice);
+            member.updateMembership(monthsToAdd);
+            member.updateBalance(
+                paidPrice: subscriptionRecord.paidPrice,
+                requestedPrice: subscriptionRecord.requestedPrice);
 
             subscriptionRecord.endDate = member.membershipEndDate;
             subscriptionRecord.update();

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'HistoryRecord.dart';
 
@@ -24,7 +24,9 @@ class Member {
   int height;
   int earnedCredits;
   int currentBalance;
+  int compensationDays;
   bool healthCareApproval;
+  bool isFreezed;
 
   Member() {
     this.history = new List<HistoryRecord>();
@@ -94,6 +96,8 @@ class Member {
       "healthCareApproval": this.healthCareApproval,
       "currentBalance": this.currentBalance,
       "earnedCredit": this.earnedCredits
+      //TODO  "isFreezed": this.isFreezed
+      //TODO  "compensationDays": this.compensationDays
     };
     var paymentRecords = {};
     for (var i = 0; i < this.history.length; i++) {
