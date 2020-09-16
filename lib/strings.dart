@@ -96,4 +96,8 @@ String sRemainingMembership = 'المدة المتبقية على نهاية ا�
 String sDays = 'ايام';
 String sDay = 'يوم';
 String sMonths = 'اشهر';
-String sFreezeMembership = 'تجميد الاشتراك';
+String sFreezeMembershipAlert = 'تجميد الاشتراك';
+String sUNFreezeMembershipAlert = 'تفعيل الاشتراك';
+String sCompensationDays = 'ايام';
+String sCompensationMonths = 'اشهر';
+String sFreezedMemberships = 'الاشتراكات المجمدة';

@@ -24,9 +24,8 @@ class Member {
   int height;
   int earnedCredits;
   int currentBalance;
-  int compensationDays;
   bool healthCareApproval;
-  bool isFreezed;
+  int freezedDays;
 
   Member() {
     this.history = new List<HistoryRecord>();
@@ -46,6 +45,7 @@ class Member {
     this.birthDate = DateTime.now();
     this.membershipStartDate = DateTime.now();
     this.membershipEndDate = DateTime.now();
+    this.freezedDays = 0;
   }
 
   Member.fromMember(var json) {
@@ -65,6 +65,7 @@ class Member {
     this.currentBalance = json["currentBalance"];
     this.healthCareApproval = json["healthCareApproval"];
     this.earnedCredits = json["earnedCredit"];
+    this.freezedDays = json["freezedDays"];
     var records = json["records"];
     Map<String, dynamic> mapOfMaps = Map.from(records);
 
@@ -95,9 +96,8 @@ class Member {
       "membershipEndDate": this.membershipEndDate.toString(),
       "healthCareApproval": this.healthCareApproval,
       "currentBalance": this.currentBalance,
-      "earnedCredit": this.earnedCredits
-      //TODO  "isFreezed": this.isFreezed
-      //TODO  "compensationDays": this.compensationDays
+      "earnedCredit": this.earnedCredits,
+      "freezedDays": this.freezedDays,
     };
     var paymentRecords = {};
     for (var i = 0; i < this.history.length; i++) {
@@ -113,16 +113,16 @@ class Member {
     this.earnedCredits += (paidPrice / 10).round();
   }
 
-  void updateMembership(int periodToAdd) {
+  void updateMembership({int monthsToAdd = 0, int daysToAdd = 0}) {
     if (this.membershipEndDate.isBefore(DateTime.now())) {
       this.membershipStartDate = DateTime.now();
       this.membershipEndDate = DateTime(DateTime.now().year,
-          DateTime.now().month + periodToAdd, DateTime.now().day);
+          DateTime.now().month + monthsToAdd, DateTime.now().day + daysToAdd);
     } else {
       this.membershipEndDate = DateTime(
           this.membershipEndDate.year,
-          this.membershipEndDate.month + periodToAdd,
-          this.membershipEndDate.day);
+          this.membershipEndDate.month + monthsToAdd,
+          this.membershipEndDate.day + daysToAdd);
     }
   }
 }

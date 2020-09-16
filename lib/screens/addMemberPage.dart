@@ -546,7 +546,7 @@ class _AddMemberState extends State<AddMember> {
                   textAlign: TextAlign.right,
                   onChanged: (text) {
                     setState(() {
-                      subscriptionRecord.note = text;
+                      subscriptionRecord.firebaseNote = text;
                     });
                   },
                   decoration: new InputDecoration(
@@ -579,20 +579,14 @@ class _AddMemberState extends State<AddMember> {
             member.history.clear();
             member.birthDate =
                 new DateTime(birthdayYear, birthdayMonth, birthdayDay);
-            member.updateMembership(monthsToAdd);
+            member.updateMembership(monthsToAdd: monthsToAdd);
             member.updateBalance(
                 paidPrice: subscriptionRecord.paidPrice,
                 requestedPrice: subscriptionRecord.requestedPrice);
 
             subscriptionRecord.endDate = member.membershipEndDate;
-            subscriptionRecord.update();
-
-            member.history.add(new Record(
-              title: subscriptionRecord.title,
-              type: subscriptionRecord.type,
-              note: subscriptionRecord.note,
-              date: subscriptionRecord.date,
-            ));
+            print(subscriptionRecord.getJson());
+            member.history.add(subscriptionRecord);
 
             addUserToFirebase(member);
             _formKey.currentState.reset();

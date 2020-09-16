@@ -69,7 +69,7 @@ class _UsePointsRecordAlertState extends State<UsePointsRecordAlert> {
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {
-                  pointsUseRecord.note = text;
+                  pointsUseRecord.firebaseNote = text;
                 },
                 decoration: new InputDecoration(
                   labelText: sNotes,
@@ -93,14 +93,7 @@ class _UsePointsRecordAlertState extends State<UsePointsRecordAlert> {
                         widget.member.earnedCredits -=
                             pointsUseRecord.usedPoints;
 
-                        pointsUseRecord.update();
-
-                        widget.member.history.add(new Record(
-                          note: pointsUseRecord.note,
-                          title: pointsUseRecord.title,
-                          type: pointsUseRecord.type,
-                          date: pointsUseRecord.date,
-                        ));
+                        widget.member.history.add(pointsUseRecord);
                         editUserFromFirebase(widget.member);
                         Navigator.of(context).pop();
                       }

@@ -29,26 +29,14 @@ import '../entities/Member.dart';
 | Output:  null if its valid otherwise sPleaseEnterText message
 \---------------------------------------------------------------------------*/
 
-enum OrderBy { WillExpireSoon, Expired }
+enum OrderBy { WillExpireSoon, Expired, Freezed }
 final ref = FirebaseDatabase().reference().child("Customers");
-Future<bool> addNewMember(
-    DatabaseReference databaseReference, Member newMember) async {
-  DataSnapshot snapshot = await databaseReference.once();
-  databaseReference.push().set(newMember.getJson());
-  if (snapshot.value == null) {
-    print("Member Not exist!");
-  } else {
-    print("Member Already exist!");
-  }
-  return snapshot.value != null;
-}
 
 void addUserToFirebase(Member newMem) {
   ref.child(newMem.idNumber).set(newMem.getJson());
 }
 
 void editUserFromFirebase(Member member) {
-  //TODO: Edit user
   ref.child(member.idNumber).update(member.getJson());
 }
 
@@ -66,16 +54,16 @@ bool authenticateWithFirebase(String text) {
 }
 
 Future<List<Member>> getExpiredMembers() {
-  print("from get Expires");
   return getAllMembers(orderBy: OrderBy.Expired);
 }
 
-Future<List<Member>> getSoonExpireMemberships(int days) {
-  print("from getSoonExpireMemberships");
-  return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
+Future<List<Member>> getFreezedUsersFromFirebase() {
+  return getAllMembers(orderBy: OrderBy.Freezed);
 }
 
-Future<Member> getUpdatedMember(Member member) {}
+Future<List<Member>> getSoonExpireMemberships(int days) {
+  return getAllMembers(orderBy: OrderBy.WillExpireSoon, days: days);
+}
 
 /*
 Update: 04/09/2020 12:30 by Ameer
@@ -88,8 +76,6 @@ Future<List<Member>> getAllMembers(
   print("getting members");
 
   return ref.once().then((DataSnapshot snapshot) {
-//    print("the snapshot key ${snapshot.key}");
-//    print("the snapshot value ${snapshot.value}");
     List<Member> members = new List<Member>();
 
     if (snapshot.value != null) {
@@ -102,8 +88,15 @@ Future<List<Member>> getAllMembers(
     members.sort((a, b) => a.membershipEndDate.compareTo(b.membershipEndDate));
     switch (orderBy) {
       case OrderBy.WillExpireSoon:
-        members.sort((a, b) => a.membershipEndDate
-            .compareTo(DateTime.now().add(new Duration(days: days))));
+        members = members
+            .where((element) =>
+                element.membershipEndDate.difference(DateTime.now()).inDays <=
+                    days &&
+                element.membershipEndDate.difference(DateTime.now()).inDays >=
+                    0 &&
+                element.freezedDays == 0)
+            .toList();
+
         break;
 
       case OrderBy.Expired:
@@ -113,16 +106,22 @@ Future<List<Member>> getAllMembers(
             .toList();
 
         break;
+
+      case OrderBy.Freezed:
+        members = members.where((element) => element.freezedDays != 0).toList();
+
+        break;
+      default:
+        if (text != "") {
+          members = members
+              .where((element) =>
+                  element.firstName.contains(text) ||
+                  element.lastName.contains(text) ||
+                  element.idNumber.contains(text))
+              .toList();
+        }
     }
 
-    if (text != "") {
-      members = members
-          .where((element) =>
-              element.firstName.contains(text) ||
-              element.lastName.contains(text) ||
-              element.idNumber.contains(text))
-          .toList();
-    }
     print("the length:${members.length}");
     return members;
   });

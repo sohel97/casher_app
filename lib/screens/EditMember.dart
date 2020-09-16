@@ -1,7 +1,10 @@
 import 'package:country_tot_casher/components/HistoryRecordComponent.dart';
+import 'package:country_tot_casher/components/alerts/CompensationAlert.dart';
 import 'package:country_tot_casher/components/alerts/addPaymentAlert.dart';
+import 'package:country_tot_casher/components/alerts/freeze_membership_alert.dart';
 import 'package:country_tot_casher/components/alerts/procced_alert.dart';
 import 'package:country_tot_casher/components/alerts/renew_membership_alert.dart';
+import 'package:country_tot_casher/components/alerts/unfreeze_membership_alert.dart';
 import 'package:country_tot_casher/components/alerts/use_points_alert.dart';
 import 'package:country_tot_casher/components/bottom_button.dart';
 import 'package:country_tot_casher/constants.dart';
@@ -510,12 +513,14 @@ class _EditMemberState extends State<EditMember> {
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
                         color: kButtonsColor,
-                        onPressed: () {
-                          renewAlert(
-                            context: context,
-                            member: widget.member,
-                          ).then((val) => {setState(() {})});
-                        },
+                        onPressed: widget.member.freezedDays == 0
+                            ? () {
+                                renewAlert(
+                                  context: context,
+                                  member: widget.member,
+                                ).then((val) => {setState(() {})});
+                              }
+                            : null,
                         child: Text(
                           sRenewSubscriptionRecord,
                           style: kLargeButtonTextStyle,
@@ -528,14 +533,83 @@ class _EditMemberState extends State<EditMember> {
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
                         color: kButtonsColor,
-                        onPressed: () {
-                          usePointsAlert(
-                            context: context,
-                            member: widget.member,
-                          ).then((val) => setState(() {}));
-                        },
+                        onPressed: widget.member.freezedDays == 0
+                            ? () {
+                                usePointsAlert(
+                                  context: context,
+                                  member: widget.member,
+                                ).then((val) => setState(() {}));
+                              }
+                            : null,
                         child: Text(
                           sUsePoints,
+                          style: kLargeButtonTextStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: widget.member.freezedDays == 0
+                            ? () {
+                                freezeMembershipAlert(
+                                  context: context,
+                                  member: widget.member,
+                                ).then((v) => {setState(() {})});
+                              }
+                            : null,
+                        child: Text(
+                          sFreezeMembershipAlert,
+                          style: kLargeButtonTextStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: widget.member.freezedDays != 0
+                            ? () {
+                                unfreezeMembershipAlert(
+                                  context: context,
+                                  member: widget.member,
+                                ).then((v) => {setState(() {})});
+                              }
+                            : null,
+                        child: Text(
+                          sUNFreezeMembershipAlert,
+                          style: kLargeButtonTextStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: kButtonsColor,
+                        onPressed: widget.member.freezedDays == 0
+                            ? () {
+                                CompensationAlert(
+                                  context: context,
+                                  member: widget.member,
+                                ).then((val) => {setState(() {})});
+                              }
+                            : null,
+                        child: Text(
+                          sCompensation,
                           style: kLargeButtonTextStyle,
                         ),
                       ),

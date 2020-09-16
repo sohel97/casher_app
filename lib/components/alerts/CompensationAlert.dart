@@ -8,25 +8,25 @@ import 'package:flutter/services.dart';
 
 import '../../constants.dart';
 
-addPaymentAlert({context, Member member}) {
+CompensationAlert({BuildContext context, Member member}) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AddPaymentRecordAlert(member: member);
+        return CompensationRecordAlert(member: member);
       });
 }
 
-class AddPaymentRecordAlert extends StatefulWidget {
+class CompensationRecordAlert extends StatefulWidget {
   final Member member;
 
-  AddPaymentRecordAlert({this.member});
+  CompensationRecordAlert({this.member});
 
   @override
-  _AddPaymentRecordAlertState createState() => _AddPaymentRecordAlertState();
+  _CompensationRecordAlert createState() => _CompensationRecordAlert();
 }
 
-class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
-  PaymentRecord paymentRecord = new PaymentRecord(paidPrice: 0, note: '');
+class _CompensationRecordAlert extends State<CompensationRecordAlert> {
+  CompensationRecord record = new CompensationRecord(note: '');
   @override
   Widget build(BuildContext context) {
     final _proccedKey = GlobalKey<FormState>();
@@ -37,19 +37,18 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
         key: _proccedKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          textDirection: TextDirection.rtl,
           children: <Widget>[
             Directionality(
               textDirection: appDirection,
               child: new TextFormField(
-                validator: numberFieldValidator,
                 textAlign: TextAlign.right,
                 onChanged: (text) {
-                  paymentRecord.paidPrice = int.parse(text);
+                  record.compensationDays = int.parse(text);
                 },
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
                 decoration: new InputDecoration(
-                  labelText: sPaidPrice,
+                  labelText: sDays,
                 ),
               ),
             ),
@@ -58,7 +57,20 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {
-                  paymentRecord.firebaseNote = text;
+                  record.compensationMonths = int.parse(text);
+                },
+                keyboardType: TextInputType.number,
+                decoration: new InputDecoration(
+                  labelText: sMonths,
+                ),
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
+              child: new TextFormField(
+                textAlign: TextAlign.right,
+                onChanged: (text) {
+                  record.firebaseNote = text;
                 },
                 decoration: new InputDecoration(
                   labelText: sNotes,
@@ -76,12 +88,11 @@ class _AddPaymentRecordAlertState extends State<AddPaymentRecordAlert> {
                     child: Text(sSave),
                     onPressed: () {
                       if (_proccedKey.currentState.validate()) {
-                        //Update the member
-                        widget.member.updateBalance(
-                          paidPrice: paymentRecord.paidPrice,
-                          requestedPrice: 0,
+                        widget.member.history.add(record);
+                        widget.member.updateMembership(
+                          monthsToAdd: record.compensationMonths,
+                          daysToAdd: record.compensationDays,
                         );
-                        widget.member.history.add(paymentRecord);
                         editUserFromFirebase(widget.member);
                         Navigator.of(context).pop();
                       }

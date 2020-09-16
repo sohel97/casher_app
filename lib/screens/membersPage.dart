@@ -89,29 +89,36 @@ class _MembersPageState extends State<MembersPage> {
                               },
                               child: Directionality(
                                 textDirection: appDirection,
-                                child: new ListTile(
-                                  leading: new CircleAvatar(
-                                    backgroundImage: new AssetImage(
-                                        snapshot.data[index].gender ==
-                                                Gender.male
-                                            ? 'images/maleAvatar.png'
-                                            : "images/female.png"),
-                                  ),
-                                  title: new Text(
-                                      snapshot.data[index].firstName +
-                                          ' ' +
-                                          snapshot.data[index].lastName),
-                                  subtitle:
-                                      new Text(snapshot.data[index].idNumber),
-                                  trailing: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        sMembershipEndfDate +
-                                            " " +
-                                            convertDate(snapshot
-                                                .data[index].membershipEndDate),
-                                      )
-                                    ],
+                                child: Container(
+                                  decoration: snapshot
+                                              .data[index].freezedDays ==
+                                          0
+                                      ? null
+                                      : new BoxDecoration(color: Colors.grey),
+                                  child: new ListTile(
+                                    leading: new CircleAvatar(
+                                      backgroundImage: new AssetImage(
+                                          snapshot.data[index].gender ==
+                                                  Gender.male
+                                              ? 'images/maleAvatar.png'
+                                              : "images/female.png"),
+                                    ),
+                                    title: new Text(
+                                        snapshot.data[index].firstName +
+                                            ' ' +
+                                            snapshot.data[index].lastName),
+                                    subtitle:
+                                        new Text(snapshot.data[index].idNumber),
+                                    trailing: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          sMembershipEndfDate +
+                                              " " +
+                                              convertDate(snapshot.data[index]
+                                                  .membershipEndDate),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

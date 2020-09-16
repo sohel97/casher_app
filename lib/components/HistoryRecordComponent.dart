@@ -13,9 +13,9 @@ class HistoryRecordComponent extends StatelessWidget {
       child: Directionality(
         textDirection: appDirection,
         child: new ListTile(
-          leading: new Text("${historyRecord.type}"),
-          title: new Text("${historyRecord.title}"),
-          subtitle: new Text("${historyRecord.note}"),
+          leading: new Text("${historyRecord.firebaseType}"),
+          title: new Text("${historyRecord.firebaseTitle}"),
+          subtitle: new Text("${historyRecord.firebaseNote}"),
           trailing: new Text("${historyRecord.getRecordDate()}"),
         ),
       ),

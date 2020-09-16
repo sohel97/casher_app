@@ -3,71 +3,64 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class HistoryRecord {
-  DateTime date;
-  String title;
-  String note;
-  String type;
-
-  HistoryRecord();
-  void setRecordType();
-  void setRecordTitle();
-  void setRecordSubtitle();
-
-  void update() {
-    setRecordTitle();
-    setRecordSubtitle();
-  }
+  DateTime firebaseDate;
+  String firebaseTitle;
+  String firebaseNote;
+  String firebaseType;
 
   String getRecordDate() {
-    return convertDate(date);
+    return convertDate(firebaseDate);
   }
 
   String getKey() {
-    var key = date.year.toString() +
+    var key = firebaseDate.year.toString() +
         "|" +
-        date.month.toString() +
+        firebaseDate.month.toString() +
         "|" +
-        date.day.toString() +
+        firebaseDate.day.toString() +
         "|" +
-        date.hour.toString() +
+        firebaseDate.hour.toString() +
         "|" +
-        date.minute.toString() +
+        firebaseDate.minute.toString() +
         "|" +
-        date.second.toString();
+        firebaseDate.second.toString();
     return key;
   }
 
+  getNote();
+  getTitle();
+  getType();
   getJson() {
     return {
-      "note": this.note,
-      "title": this.title,
-      "type": this.type,
-      "dateTime": this.date.toString()
+      "note": getNote(),
+      "title": getTitle(),
+      "type": getType(),
+      "dateTime": this.firebaseDate.toString()
     };
   }
 }
 
 class Record extends HistoryRecord {
-  Record({String note, String title, String type, DateTime date}) {
-    this.note = note;
-    this.title = title;
-    this.type = type;
-    this.date = date;
+  Record.fromRecord(var json) {
+    this.firebaseNote = json["note"];
+    this.firebaseTitle = json["title"];
+    this.firebaseType = json["type"];
+    this.firebaseDate = DateTime.parse(json["dateTime"]);
   }
 
   @override
-  void setRecordSubtitle() {}
+  getNote() {
+    return this.firebaseNote;
+  }
 
   @override
-  void setRecordTitle() {}
+  getTitle() {
+    return this.firebaseTitle;
+  }
 
   @override
-  void setRecordType() {}
-  Record.fromRecord(var json) {
-    this.note = json["note"];
-    this.title = json["title"];
-    this.type = json["type"];
-    this.date = DateTime.parse(json["dateTime"]);
+  getType() {
+    return this.firebaseType;
   }
 }
 
@@ -76,33 +69,32 @@ class PaymentRecord extends HistoryRecord {
   String note;
 
   PaymentRecord({
-    @required paidPrice,
-    @required note,
+    int paidPrice = 0,
+    String note = '',
   }) {
     this.paidPrice = paidPrice;
-    this.note = note;
-    this.date = DateTime.now();
-    setRecordSubtitle();
-    setRecordTitle();
-    setRecordType();
+    this.firebaseNote = note;
+    this.firebaseDate = DateTime.now();
   }
 
   @override
-  setRecordSubtitle() {
-    this.note = note;
+  getNote() {
+    return this.firebaseNote;
   }
 
   @override
-  setRecordTitle() {
-    title = sPaidPrice;
+  getTitle() {
+    String title = sPaidPrice;
     title += ":";
     title += paidPrice.toString();
-    this.title = title;
+    this.firebaseTitle = title;
+    return firebaseTitle;
   }
 
   @override
-  setRecordType() {
-    this.type = sPaymentRecord;
+  getType() {
+    this.firebaseType = sPaymentRecord;
+    return this.firebaseType;
   }
 }
 
@@ -128,13 +120,11 @@ class SubscriptionRecord extends HistoryRecord {
     this.requestedPrice = requestedPrice;
     this.paidPrice = paidPrice;
     this.isNewMember = isNewMember;
-    this.date = DateTime.now();
-    setRecordType();
-    setRecordTitle();
+    this.firebaseDate = DateTime.now();
   }
 
   @override
-  void setRecordSubtitle() {
+  getNote() {
     String subtitle = sMembershipStartDate;
     subtitle += ":";
     subtitle += convertDate(startDate);
@@ -143,11 +133,12 @@ class SubscriptionRecord extends HistoryRecord {
     subtitle += ":";
     subtitle += convertDate(endDate);
     subtitle += (note != '' ? "\n$note" : note);
-    this.note = subtitle;
+    this.firebaseNote = subtitle;
+    return this.firebaseNote;
   }
 
   @override
-  void setRecordTitle() {
+  getTitle() {
     String title = sRequestedPrice;
     title += ":";
     title += requestedPrice.toString();
@@ -155,19 +146,22 @@ class SubscriptionRecord extends HistoryRecord {
     title += sPaidPrice;
     title += ":";
     title += paidPrice.toString();
-    this.title = title;
+    this.firebaseTitle = title;
+    return firebaseTitle;
   }
 
   @override
-  void setRecordType() {
-    this.type = isNewMember ? sNewSubscriptionRecord : sRenewSubscriptionRecord;
+  getType() {
+    firebaseType =
+        (isNewMember ? sNewSubscriptionRecord : sRenewSubscriptionRecord);
+    return firebaseType;
   }
 }
 
 class PointsUseRecord extends HistoryRecord {
   int pointsBalance;
   int usedPoints;
-  String note;
+  String firebaseNote;
 
   PointsUseRecord({
     @required pointsBalance,
@@ -176,20 +170,17 @@ class PointsUseRecord extends HistoryRecord {
   }) {
     this.pointsBalance = pointsBalance;
     this.usedPoints = usedPoints;
-    this.note = note;
-    this.date = DateTime.now();
-    setRecordSubtitle();
-    setRecordTitle();
-    setRecordType();
+    this.firebaseNote = note;
+    this.firebaseDate = DateTime.now();
   }
 
   @override
-  void setRecordSubtitle() {
-    this.note = note;
+  getNote() {
+    return this.firebaseNote;
   }
 
   @override
-  void setRecordTitle() {
+  getTitle() {
     String title = sRemainingPointsBalance;
     title += ":";
     title += (pointsBalance - usedPoints).toString();
@@ -197,12 +188,14 @@ class PointsUseRecord extends HistoryRecord {
     title += sUsedPoints;
     title += ":";
     title += usedPoints.toString();
-    this.title = title;
+    this.firebaseTitle = title;
+    return this.firebaseTitle;
   }
 
   @override
-  void setRecordType() {
-    this.type = sUsePoints;
+  getType() {
+    this.firebaseType = sUsePoints;
+    return this.firebaseType;
   }
 }
 
@@ -210,21 +203,85 @@ class FreezeMembershipRecord extends HistoryRecord {
   FreezeMembershipRecord({
     @required note,
   }) {
-    this.note = note;
-    this.date = DateTime.now();
-    setRecordSubtitle();
-    setRecordTitle();
-    setRecordType();
+    this.firebaseTitle = note;
+    this.firebaseDate = DateTime.now();
+    this.firebaseNote = ' ';
+    this.firebaseType = sFreezeMembershipAlert;
   }
 
   @override
-  void setRecordSubtitle() {}
+  getNote() {
+    return firebaseNote;
+  }
 
   @override
-  void setRecordTitle() {}
+  getTitle() {
+    return this.firebaseTitle;
+  }
 
   @override
-  void setRecordType() {
-    this.type = sFreezeMembership;
+  getType() {
+    return this.firebaseType;
+  }
+}
+
+class unfreezeMembershipRecord extends HistoryRecord {
+  unfreezeMembershipRecord({
+    @required note,
+  }) {
+    this.firebaseTitle = note;
+    this.firebaseDate = DateTime.now();
+    this.firebaseNote = ' ';
+    this.firebaseType = sUNFreezeMembershipAlert;
+  }
+
+  @override
+  getNote() {
+    return firebaseNote;
+  }
+
+  @override
+  getTitle() {
+    return this.firebaseTitle;
+  }
+
+  @override
+  getType() {
+    return this.firebaseType;
+  }
+}
+
+class CompensationRecord extends HistoryRecord {
+  int compensationDays;
+  int compensationMonths;
+  CompensationRecord({
+    @required note,
+  }) {
+    this.compensationDays = 0;
+    this.compensationMonths = 0;
+    this.firebaseTitle = note;
+    this.firebaseDate = DateTime.now();
+    this.firebaseNote = ' ';
+    this.firebaseType = sCompensation;
+  }
+
+  @override
+  getNote() {
+    return firebaseNote;
+  }
+
+  @override
+  getTitle() {
+    String title = sCompensationDays;
+    title += ': ' + this.compensationDays.toString();
+    title +=
+        ' , ' + sCompensationMonths + ': ' + this.compensationMonths.toString();
+    this.firebaseTitle = title;
+    return this.firebaseTitle;
+  }
+
+  @override
+  getType() {
+    return this.firebaseType;
   }
 }

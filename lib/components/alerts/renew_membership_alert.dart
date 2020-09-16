@@ -125,7 +125,7 @@ class _RenewMembershipRecordAlertState
               child: new TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (text) {
-                  subscriptionRecord.note = text;
+                  subscriptionRecord.firebaseNote = text;
                 },
                 decoration: new InputDecoration(
                   labelText: sNotes,
@@ -144,7 +144,8 @@ class _RenewMembershipRecordAlertState
                     onPressed: () {
                       if (_proccedKey.currentState.validate()) {
                         //Update the member
-                        widget.member.updateMembership(monthsToAdd);
+                        widget.member
+                            .updateMembership(monthsToAdd: monthsToAdd);
                         widget.member.updateBalance(
                           paidPrice: subscriptionRecord.paidPrice,
                           requestedPrice: subscriptionRecord.requestedPrice,
@@ -155,16 +156,8 @@ class _RenewMembershipRecordAlertState
                             widget.member.membershipStartDate;
                         subscriptionRecord.endDate =
                             widget.member.membershipEndDate;
-                        subscriptionRecord.update();
-                        print(subscriptionRecord.endDate.toUtc().toString());
-                        print(
-                            widget.member.membershipEndDate.toUtc().toString());
-                        widget.member.history.add(new Record(
-                          note: subscriptionRecord.note,
-                          title: subscriptionRecord.title,
-                          type: subscriptionRecord.type,
-                          date: subscriptionRecord.date,
-                        ));
+
+                        widget.member.history.add(subscriptionRecord);
                         editUserFromFirebase(widget.member);
                         Navigator.of(context).pop();
                       }
