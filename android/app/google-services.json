@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "599319273415",
-    "firebase_url": "https://casherapp-8554a.firebaseio.com",
-    "project_id": "casherapp-8554a",
-    "storage_bucket": "casherapp-8554a.appspot.com"
+    "project_number": "118438383499",
+    "firebase_url": "https://gymsystem-13de2.firebaseio.com",
+    "project_id": "gymsystem-13de2",
+    "storage_bucket": "gymsystem-13de2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:599319273415:android:25438a2ec6041f515e43e2",
+        "mobilesdk_app_id": "1:118438383499:android:5e8f3c1ae597e08d61698e",
         "android_client_info": {
           "package_name": "com.example.country_tot_casher"
         }
       },
       "oauth_client": [
         {
-          "client_id": "599319273415-g2oo9bi2n47j0eqbasv21o2hon0lmt12.apps.googleusercontent.com",
+          "client_id": "118438383499-sesoaqq174vglc1oi5a22l10l46lemfq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlLu5Wur9cY6dACItrYTmZlHdUnHWV-m8"
+          "current_key": "AIzaSyAJ0a1YytOmy-_JMpVukP8MDz76sKR84Is"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "599319273415-g2oo9bi2n47j0eqbasv21o2hon0lmt12.apps.googleusercontent.com",
+              "client_id": "118438383499-sesoaqq174vglc1oi5a22l10l46lemfq.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "599319273415-an16fkftomlt127nlhccr60bb286se0q.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.countryTotCasher"
-              }
             }
           ]
         }

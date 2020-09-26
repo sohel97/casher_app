@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>599319273415-an16fkftomlt127nlhccr60bb286se0q.apps.googleusercontent.com</string>
+	<string>118438383499-i1fp2cl45q3ae5kuktu3g8s913i7ffue.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.599319273415-an16fkftomlt127nlhccr60bb286se0q</string>
+	<string>com.googleusercontent.apps.118438383499-i1fp2cl45q3ae5kuktu3g8s913i7ffue</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCSes7gPHKnaWZPUMe-KSYjca8qjD_XqdA</string>
+	<string>AIzaSyBUsP4wm7ISN1IGWyY0rsiqCm3JnXU-I6k</string>
 	<key>GCM_SENDER_ID</key>
-	<string>599319273415</string>
+	<string>118438383499</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.countryTotCasher</string>
 	<key>PROJECT_ID</key>
-	<string>casherapp-8554a</string>
+	<string>gymsystem-13de2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>casherapp-8554a.appspot.com</string>
+	<string>gymsystem-13de2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:599319273415:ios:f64bbc17b1c16fc65e43e2</string>
+	<string>1:118438383499:ios:d4238bef2bf076d161698e</string>
 	<key>DATABASE_URL</key>
-	<string>https://casherapp-8554a.firebaseio.com</string>
+	<string>https://gymsystem-13de2.firebaseio.com</string>
 </dict>
 </plist>

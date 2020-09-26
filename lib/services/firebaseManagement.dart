@@ -33,6 +33,13 @@ enum OrderBy { WillExpireSoon, Expired, Freezed }
 final ref = FirebaseDatabase().reference().child("Customers");
 
 void addUserToFirebase(Member newMem) {
+  ref
+      .orderByChild("phoneNumber")
+      .equalTo(newMem.phoneNumber)
+      .once()
+      .then((DataSnapshot snapshot) {
+    print(snapshot.value);
+  });
   ref.child(newMem.idNumber).set(newMem.getJson());
 }
 
