@@ -36,7 +36,7 @@ void addUserToFirebase(Member newMem) {
   ref.child(newMem.idNumber).set(newMem.getJson());
   FirebaseDatabase()
       .reference()
-      .child("Trainers")
+      .child("Planners")
       .child("Customers")
       .child(newMem.idNumber)
       .set({"firstName": newMem.firstName, "lastName": newMem.lastName});
@@ -46,7 +46,7 @@ void editUserFromFirebase(Member member) {
   ref.child(member.idNumber).update(member.getJson());
   FirebaseDatabase()
       .reference()
-      .child("Trainers")
+      .child("Planners")
       .child("Customers")
       .child(member.idNumber)
       .update({"firstName": member.firstName, "lastName": member.lastName});
@@ -56,7 +56,7 @@ void deleteUserFromFirebase(Member member) {
   ref.child(member.idNumber).remove();
   FirebaseDatabase()
       .reference()
-      .child("Trainers")
+      .child("Planners")
       .child("Customers")
       .child(member.idNumber)
       .remove();
