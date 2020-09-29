@@ -33,22 +33,33 @@ enum OrderBy { WillExpireSoon, Expired, Freezed }
 final ref = FirebaseDatabase().reference().child("Customers");
 
 void addUserToFirebase(Member newMem) {
-  ref
-      .orderByChild("phoneNumber")
-      .equalTo(newMem.phoneNumber)
-      .once()
-      .then((DataSnapshot snapshot) {
-    print(snapshot.value);
-  });
   ref.child(newMem.idNumber).set(newMem.getJson());
+  FirebaseDatabase()
+      .reference()
+      .child("Trainers")
+      .child("Customers")
+      .child(newMem.idNumber)
+      .set({"firstName": newMem.firstName, "lastName": newMem.lastName});
 }
 
 void editUserFromFirebase(Member member) {
   ref.child(member.idNumber).update(member.getJson());
+  FirebaseDatabase()
+      .reference()
+      .child("Trainers")
+      .child("Customers")
+      .child(member.idNumber)
+      .update({"firstName": member.firstName, "lastName": member.lastName});
 }
 
 void deleteUserFromFirebase(Member member) {
   ref.child(member.idNumber).remove();
+  FirebaseDatabase()
+      .reference()
+      .child("Trainers")
+      .child("Customers")
+      .child(member.idNumber)
+      .remove();
 }
 
 bool authenticateWithFirebase(String text) {
@@ -80,6 +91,7 @@ from membersPage.dart
 */
 Future<List<Member>> getAllMembers(
     {OrderBy orderBy, int days, String text = ""}) {
+  print(ref.parent().path);
   print("getting members");
 
   return ref.once().then((DataSnapshot snapshot) {
