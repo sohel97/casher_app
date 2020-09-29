@@ -33,13 +33,21 @@ enum OrderBy { WillExpireSoon, Expired, Freezed }
 final ref = FirebaseDatabase().reference().child("Customers");
 
 void addUserToFirebase(Member newMem) {
-  ref.child(newMem.idNumber).set(newMem.getJson());
-  FirebaseDatabase()
-      .reference()
-      .child("Planners")
-      .child("Customers")
-      .child(newMem.idNumber)
-      .set({"firstName": newMem.firstName, "lastName": newMem.lastName});
+  if (newMem.membersJob == MembersJob.Participant) {
+    ref.child(newMem.idNumber).set(newMem.getJson());
+    FirebaseDatabase()
+        .reference()
+        .child("Planners")
+        .child("Customers")
+        .child(newMem.idNumber)
+        .set({"firstName": newMem.firstName, "lastName": newMem.lastName});
+  } else {
+    FirebaseDatabase()
+        .reference()
+        .child("Planners")
+        .child(newMem.idNumber)
+        .set(newMem.getJson());
+  }
 }
 
 void editUserFromFirebase(Member member) {
@@ -101,7 +109,8 @@ Future<List<Member>> getAllMembers(
       Map<String, dynamic> mapOfMaps = Map.from(snapshot.value);
 
       mapOfMaps.values.forEach((value) {
-        members.add(Member.fromMember(Map.from(value)));
+        if (Map.from(value)["membersJob"] == "MembersJob.Participant")
+          members.add(Member.fromMember(Map.from(value)));
       });
     }
     members.sort((a, b) => a.membershipEndDate.compareTo(b.membershipEndDate));

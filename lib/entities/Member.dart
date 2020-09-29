@@ -6,6 +6,7 @@ enum Gender {
   male,
   female,
 }
+enum MembersJob { Participant, Planner }
 
 class Member {
   Gender gender;
@@ -26,8 +27,10 @@ class Member {
   int currentBalance;
   bool healthCareApproval;
   int freezedDays;
+  MembersJob membersJob;
 
   Member() {
+    this.membersJob = MembersJob.Participant;
     this.history = new List<HistoryRecord>();
     this.firstName = '';
     this.lastName = '';
@@ -49,29 +52,37 @@ class Member {
   }
 
   Member.fromMember(var json) {
+    this.membersJob = json["membersJob"] == "MembersJob.Participant"
+        ? MembersJob.Participant
+        : MembersJob.Planner;
     this.history = new List<HistoryRecord>();
     this.firstName = json["firstName"];
     this.lastName = json["lastName"];
     this.phoneNumber = json["phoneNumber"];
     this.city = json["city"];
     this.gender = (json["gender"] == "male") ? Gender.male : Gender.female;
-    this.currentWeight = json["currentWeight"];
-    this.requestedWeight = json["requestedWeight"];
-    this.height = json["height"];
-    this.birthDate = DateTime.parse(json["birthDate"]);
-    this.membershipStartDate = DateTime.parse(json["membershipStartDate"]);
-    this.membershipEndDate = DateTime.parse(json["membershipEndDate"]);
     this.idNumber = json["idNumber"];
-    this.currentBalance = json["currentBalance"];
-    this.healthCareApproval = json["healthCareApproval"];
-    this.earnedCredits = json["earnedCredit"];
-    this.freezedDays = json["freezedDays"];
-    var records = json["records"];
-    Map<String, dynamic> mapOfMaps = Map.from(records);
+    this.birthDate = DateTime.parse(json["birthDate"]);
 
-    mapOfMaps.values.forEach((value) {
-      history.add(new Record.fromRecord(Map.from(value)));
-    });
+    if (membersJob == MembersJob.Participant) {
+      this.currentWeight = json["currentWeight"];
+      this.requestedWeight = json["requestedWeight"];
+      this.height = json["height"];
+      this.membershipStartDate = DateTime.parse(json["membershipStartDate"]);
+      this.membershipEndDate = DateTime.parse(json["membershipEndDate"]);
+
+      this.currentBalance = json["currentBalance"];
+      this.healthCareApproval = json["healthCareApproval"];
+      this.earnedCredits = json["earnedCredit"];
+      this.freezedDays = json["freezedDays"];
+
+      var records = json["records"];
+      Map<String, dynamic> mapOfMaps = Map.from(records);
+
+      mapOfMaps.values.forEach((value) {
+        history.add(new Record.fromRecord(Map.from(value)));
+      });
+    }
   }
 
   calculateBMI() {
@@ -81,30 +92,45 @@ class Member {
   }
 
   getJson() {
-    var jsn = {
-      "idNumber": this.idNumber,
-      "firstName": this.firstName,
-      "lastName": this.lastName,
-      "phoneNumber": this.phoneNumber,
-      "city": this.city,
-      "gender": this.gender.toString().substring(7),
-      "currentWeight": this.currentWeight,
-      "requestedWeight": this.requestedWeight,
-      "height": this.height,
-      "birthDate": this.birthDate.toString(),
-      "membershipStartDate": this.membershipStartDate.toString(),
-      "membershipEndDate": this.membershipEndDate.toString(),
-      "healthCareApproval": this.healthCareApproval,
-      "currentBalance": this.currentBalance,
-      "earnedCredit": this.earnedCredits,
-      "freezedDays": this.freezedDays,
-    };
-    var paymentRecords = {};
-    for (var i = 0; i < this.history.length; i++) {
-      var currPayRec = this.history[i];
-      paymentRecords[currPayRec.getKey()] = currPayRec.getJson();
+    var jsn = this.membersJob == MembersJob.Participant
+        ? {
+            "idNumber": this.idNumber,
+            "firstName": this.firstName,
+            "lastName": this.lastName,
+            "membersJob": this.membersJob.toString(),
+            "phoneNumber": this.phoneNumber,
+            "city": this.city,
+            "gender": this.gender.toString().substring(7),
+            "birthDate": this.birthDate.toString(),
+            "currentWeight": this.currentWeight,
+            "requestedWeight": this.requestedWeight,
+            "height": this.height,
+            "membershipStartDate": this.membershipStartDate.toString(),
+            "membershipEndDate": this.membershipEndDate.toString(),
+            "healthCareApproval": this.healthCareApproval,
+            "currentBalance": this.currentBalance,
+            "earnedCredit": this.earnedCredits,
+            "freezedDays": this.freezedDays,
+          }
+        : {
+            "idNumber": this.idNumber,
+            "firstName": this.firstName,
+            "lastName": this.lastName,
+            "membersJob": this.membersJob.toString(),
+            "phoneNumber": this.phoneNumber,
+            "city": this.city,
+            "gender": this.gender.toString().substring(7),
+            "birthDate": this.birthDate.toString()
+          };
+
+    if (this.membersJob == MembersJob.Participant) {
+      var paymentRecords = {};
+      for (var i = 0; i < this.history.length; i++) {
+        var currPayRec = this.history[i];
+        paymentRecords[currPayRec.getKey()] = currPayRec.getJson();
+      }
+      jsn["records"] = paymentRecords;
     }
-    jsn["records"] = paymentRecords;
     return jsn;
   }
 

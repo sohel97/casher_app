@@ -23,6 +23,7 @@ class _AddMemberState extends State<AddMember> {
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
+  String dropdownValue = 'מתאמן';
   SubscriptionRecord subscriptionRecord = SubscriptionRecord(
     startDate: DateTime.now(),
     endDate: DateTime.now(),
@@ -43,6 +44,36 @@ class _AddMemberState extends State<AddMember> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                Directionality(
+                    textDirection: appDirection,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        DropdownButton<String>(
+                          value: dropdownValue,
+                          icon: Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownValue = newValue;
+                            });
+                          },
+                          items: <String>['מתאמן', 'מאמן']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
+                      ],
+                    )),
                 SizedBox(
                   height: 30.0,
                 ),
@@ -282,260 +313,271 @@ class _AddMemberState extends State<AddMember> {
                 Directionality(
                   textDirection: TextDirection.ltr,
                   child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: ReusableCard(
-                          colour: kActiveCardColour,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                sRequestedWeight,
-                                style: kLabelTextStyle,
-                              ),
-                              Text(
-                                member.requestedWeight.toString(),
-                                style: kNumberTextStyle,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  RoundIconButton(
-                                      icon: FontAwesomeIcons.minus,
-                                      onPressed: () {
-                                        setState(() {
-                                          member.requestedWeight--;
-                                        });
-                                      }),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  RoundIconButton(
-                                    icon: FontAwesomeIcons.plus,
-                                    onPressed: () {
-                                      setState(() {
-                                        member.requestedWeight++;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ReusableCard(
-                          colour: kActiveCardColour,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                sHeight,
-                                style: kLabelTextStyle,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: <Widget>[
-                                  Text(
-                                    member.height.toString(),
-                                    style: kNumberTextStyle,
-                                  ),
-                                  Text(
-                                    'cm',
-                                    style: kLabelTextStyle,
-                                  )
-                                ],
-                              ),
-                              SliderTheme(
-                                data: SliderTheme.of(context).copyWith(
-                                  inactiveTrackColor: Color(0xFF8D8E98),
-                                  activeTrackColor: Colors.white,
-                                  thumbColor: kButtonsColor,
-                                  overlayColor: Color(0x29EC801A),
-                                  thumbShape: RoundSliderThumbShape(
-                                      enabledThumbRadius: 15.0),
-                                  overlayShape: RoundSliderOverlayShape(
-                                      overlayRadius: 30.0),
-                                ),
-                                child: Slider(
-                                  value: member.height.toDouble(),
-                                  min: 120.0,
-                                  max: 220.0,
-                                  onChanged: (double newValue) {
-                                    setState(() {
-                                      member.height = newValue.round();
-                                    });
-                                  },
+                    children: dropdownValue == 'מתאמן'
+                        ? <Widget>[
+                            Expanded(
+                              child: ReusableCard(
+                                colour: kActiveCardColour,
+                                cardChild: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      sRequestedWeight,
+                                      style: kLabelTextStyle,
+                                    ),
+                                    Text(
+                                      member.requestedWeight.toString(),
+                                      style: kNumberTextStyle,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RoundIconButton(
+                                            icon: FontAwesomeIcons.minus,
+                                            onPressed: () {
+                                              setState(() {
+                                                member.requestedWeight--;
+                                              });
+                                            }),
+                                        SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        RoundIconButton(
+                                          icon: FontAwesomeIcons.plus,
+                                          onPressed: () {
+                                            setState(() {
+                                              member.requestedWeight++;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ReusableCard(
-                          colour: kActiveCardColour,
-                          cardChild: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                sCurrentWeight,
-                                style: kLabelTextStyle,
+                            ),
+                            Expanded(
+                              child: ReusableCard(
+                                colour: kActiveCardColour,
+                                cardChild: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      sHeight,
+                                      style: kLabelTextStyle,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: <Widget>[
+                                        Text(
+                                          member.height.toString(),
+                                          style: kNumberTextStyle,
+                                        ),
+                                        Text(
+                                          'cm',
+                                          style: kLabelTextStyle,
+                                        )
+                                      ],
+                                    ),
+                                    SliderTheme(
+                                      data: SliderTheme.of(context).copyWith(
+                                        inactiveTrackColor: Color(0xFF8D8E98),
+                                        activeTrackColor: Colors.white,
+                                        thumbColor: kButtonsColor,
+                                        overlayColor: Color(0x29EC801A),
+                                        thumbShape: RoundSliderThumbShape(
+                                            enabledThumbRadius: 15.0),
+                                        overlayShape: RoundSliderOverlayShape(
+                                            overlayRadius: 30.0),
+                                      ),
+                                      child: Slider(
+                                        value: member.height.toDouble(),
+                                        min: 120.0,
+                                        max: 220.0,
+                                        onChanged: (double newValue) {
+                                          setState(() {
+                                            member.height = newValue.round();
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Text(
-                                member.currentWeight.toString(),
-                                style: kNumberTextStyle,
+                            ),
+                            Expanded(
+                              child: ReusableCard(
+                                colour: kActiveCardColour,
+                                cardChild: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      sCurrentWeight,
+                                      style: kLabelTextStyle,
+                                    ),
+                                    Text(
+                                      member.currentWeight.toString(),
+                                      style: kNumberTextStyle,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RoundIconButton(
+                                            icon: FontAwesomeIcons.minus,
+                                            onPressed: () {
+                                              setState(() {
+                                                member.currentWeight--;
+                                              });
+                                            }),
+                                        SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        RoundIconButton(
+                                          icon: FontAwesomeIcons.plus,
+                                          onPressed: () {
+                                            setState(() {
+                                              member.currentWeight++;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  RoundIconButton(
-                                      icon: FontAwesomeIcons.minus,
-                                      onPressed: () {
-                                        setState(() {
-                                          member.currentWeight--;
-                                        });
-                                      }),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  RoundIconButton(
-                                    icon: FontAwesomeIcons.plus,
-                                    onPressed: () {
-                                      setState(() {
-                                        member.currentWeight++;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                            ),
+                          ]
+                        : [],
                   ),
                 ),
                 ReusableCard(
                   colour: kActiveCardColour,
-                  cardChild: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        sPeriodToAdd,
-                        style: kLabelTextStyle,
-                      ),
-                      Text(
-                        monthsToAdd.toString(),
-                        style: kNumberTextStyle,
-                      ),
-                      SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          inactiveTrackColor: Color(0xFF8D8E98),
-                          activeTrackColor: Colors.white,
-                          thumbColor: kButtonsColor,
-                          overlayColor: Color(0x29EC801A),
-                          thumbShape:
-                              RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                          overlayShape:
-                              RoundSliderOverlayShape(overlayRadius: 30.0),
-                        ),
-                        child: Slider(
-                          value: monthsToAdd.toDouble(),
-                          min: 1,
-                          max: 12,
-                          onChanged: (double newValue) {
-                            setState(() {
-                              monthsToAdd = newValue.round();
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  cardChild: dropdownValue == 'מתאמן'
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              sPeriodToAdd,
+                              style: kLabelTextStyle,
+                            ),
+                            Text(
+                              monthsToAdd.toString(),
+                              style: kNumberTextStyle,
+                            ),
+                            SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                inactiveTrackColor: Color(0xFF8D8E98),
+                                activeTrackColor: Colors.white,
+                                thumbColor: kButtonsColor,
+                                overlayColor: Color(0x29EC801A),
+                                thumbShape: RoundSliderThumbShape(
+                                    enabledThumbRadius: 15.0),
+                                overlayShape: RoundSliderOverlayShape(
+                                    overlayRadius: 30.0),
+                              ),
+                              child: Slider(
+                                value: monthsToAdd.toDouble(),
+                                min: 1,
+                                max: 12,
+                                onChanged: (double newValue) {
+                                  setState(() {
+                                    monthsToAdd = newValue.round();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(),
                 ),
               ],
             ),
             SizedBox(
-              height: 50,
+              height: dropdownValue == 'מתאמן' ? 50 : 0,
             ),
             Directionality(
               textDirection: appDirection,
               child: Row(
-                children: <Widget>[
-                  Checkbox(
-                    checkColor: Colors.black,
-                    activeColor: Colors.white,
-                    onChanged: (value) {
-                      setState(() {
-                        member.healthCareApproval = value;
-                      });
-                    },
-                    value: member.healthCareApproval,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Directionality(
-                      textDirection: appDirection,
-                      child: new Text(
-                        sHealthApproval,
-                        style: kLargeButtonTextStyle,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: appDirection,
-                        child: new TextFormField(
-                          validator: numberFieldValidator,
-                          inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                          textAlign: TextAlign.right,
-                          onChanged: (text) {
+                children: dropdownValue == 'מתאמן'
+                    ? <Widget>[
+                        Checkbox(
+                          checkColor: Colors.black,
+                          activeColor: Colors.white,
+                          onChanged: (value) {
                             setState(() {
-                              subscriptionRecord.paidPrice = int.parse(text);
+                              member.healthCareApproval = value;
                             });
                           },
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            labelText: sPaidPrice,
+                          value: member.healthCareApproval,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Directionality(
+                            textDirection: appDirection,
+                            child: new Text(
+                              sHealthApproval,
+                              style: kLargeButtonTextStyle,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Directionality(
-                        textDirection: appDirection,
-                        child: new TextFormField(
-                          validator: numberFieldValidator,
-                          inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                          textAlign: TextAlign.right,
-                          onChanged: (text) {
-                            setState(() {
-                              subscriptionRecord.requestedPrice =
-                                  int.parse(text);
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            labelText: sRequestedPrice,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Directionality(
+                              textDirection: appDirection,
+                              child: new TextFormField(
+                                validator: numberFieldValidator,
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter.digitsOnly
+                                ],
+                                textAlign: TextAlign.right,
+                                onChanged: (text) {
+                                  setState(() {
+                                    subscriptionRecord.paidPrice =
+                                        int.parse(text);
+                                  });
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: new InputDecoration(
+                                  labelText: sPaidPrice,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Directionality(
+                              textDirection: appDirection,
+                              child: new TextFormField(
+                                validator: numberFieldValidator,
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter.digitsOnly
+                                ],
+                                textAlign: TextAlign.right,
+                                onChanged: (text) {
+                                  setState(() {
+                                    subscriptionRecord.requestedPrice =
+                                        int.parse(text);
+                                  });
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: new InputDecoration(
+                                  labelText: sRequestedPrice,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]
+                    : [],
               ),
             ),
             Padding(
@@ -587,7 +629,9 @@ class _AddMemberState extends State<AddMember> {
             subscriptionRecord.endDate = member.membershipEndDate;
             print(subscriptionRecord.getJson());
             member.history.add(subscriptionRecord);
-
+            member.membersJob = dropdownValue == 'מתאמן'
+                ? MembersJob.Participant
+                : MembersJob.Planner;
             addUserToFirebase(member);
             _formKey.currentState.reset();
           }
