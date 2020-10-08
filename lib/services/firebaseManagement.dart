@@ -58,7 +58,7 @@ void addUserToFirebase(Member newMem) {
           .reference()
           .child("Planners")
           .child(newMem.idNumber)
-          .update({"premadePlans": snapshot.value});
+          .update({"PremadePlans": snapshot.value});
     });
   }
 }
