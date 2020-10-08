@@ -47,6 +47,19 @@ void addUserToFirebase(Member newMem) {
         .child("Planners")
         .child(newMem.idNumber)
         .set(newMem.getJson());
+    FirebaseDatabase()
+        .reference()
+        .child("Planners")
+        .child("premadePlans")
+        .once()
+        .then((DataSnapshot snapshot) {
+      print(snapshot.value);
+      FirebaseDatabase()
+          .reference()
+          .child("Planners")
+          .child(newMem.idNumber)
+          .update({"PremadePlan": snapshot.value});
+    });
   }
 }
 
@@ -109,8 +122,9 @@ Future<List<Member>> getAllMembers(
       Map<String, dynamic> mapOfMaps = Map.from(snapshot.value);
 
       mapOfMaps.values.forEach((value) {
-        if (Map.from(value)["membersJob"] == "MembersJob.Participant")
+        if (Map.from(value)["membersJob"] == "MembersJob.Participant") {
           members.add(Member.fromMember(Map.from(value)));
+        }
       });
     }
     members.sort((a, b) => a.membershipEndDate.compareTo(b.membershipEndDate));
