@@ -11,6 +11,7 @@ import 'package:country_tot_casher/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddMember extends StatefulWidget {
   @override
@@ -23,6 +24,9 @@ class _AddMemberState extends State<AddMember> {
   int birthdayDay;
   int birthdayMonth;
   int birthdayYear;
+  int renewStartDay = DateTime.now().day;
+  int renewStartMonth = DateTime.now().month;
+  int renewStartYear = DateTime.now().year;
   String dropdownValue = 'מתאמן';
   SubscriptionRecord subscriptionRecord = SubscriptionRecord(
     startDate: DateTime.now(),
@@ -496,6 +500,84 @@ class _AddMemberState extends State<AddMember> {
                         )
                       : Column(),
                 ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Directionality(
+                        textDirection: appDirection,
+                        child: Text(
+                          sStartDate,
+                          style: kLabelTextStyle,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        new Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              initialValue:
+                                  (renewStartDay).toString().padLeft(2, '0'),
+                              validator: dayFieldValidator,
+                              textAlign: TextAlign.right,
+                              onChanged: (text) {
+                                renewStartDay = int.parse(text);
+                              },
+                              inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly
+                              ],
+                              keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+                                  labelText: sBirthDateDay, hintText: 'DD'),
+                            ),
+                          ),
+                        ),
+                        new Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              initialValue:
+                                  (renewStartMonth).toString().padLeft(2, '0'),
+                              validator: monthFieldValidator,
+                              textAlign: TextAlign.right,
+                              onChanged: (text) {
+                                renewStartMonth = int.parse(text);
+                              },
+                              inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly
+                              ],
+                              keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+                                  labelText: sBirthDateMonth, hintText: 'MM'),
+                            ),
+                          ),
+                        ),
+                        new Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new TextFormField(
+                              initialValue: (renewStartYear).toString(),
+                              validator: yearFieldValidator,
+                              textAlign: TextAlign.right,
+                              onChanged: (text) {
+                                renewStartYear = int.parse(text);
+                              },
+                              inputFormatters: [
+                                WhitelistingTextInputFormatter.digitsOnly
+                              ],
+                              keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+                                  labelText: sBirthDateYear, hintText: 'YYYY'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
             SizedBox(
@@ -619,9 +701,14 @@ class _AddMemberState extends State<AddMember> {
         onTap: () {
           if (_formKey.currentState.validate()) {
             member.history.clear();
+
             member.birthDate =
                 new DateTime(birthdayYear, birthdayMonth, birthdayDay);
-            member.updateMembership(monthsToAdd: monthsToAdd);
+            DateTime startDate =
+                new DateTime(renewStartYear, renewStartMonth, renewStartDay);
+            subscriptionRecord.startDate = startDate;
+            member.updateMembership(
+                newStartDate: startDate, monthsToAdd: monthsToAdd);
             member.updateBalance(
                 paidPrice: subscriptionRecord.paidPrice,
                 requestedPrice: subscriptionRecord.requestedPrice);
@@ -633,6 +720,14 @@ class _AddMemberState extends State<AddMember> {
                 ? MembersJob.Participant
                 : MembersJob.Planner;
             addUserToFirebase(member);
+            Fluttertoast.showToast(
+                msg: sSavedSuccessfully,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0);
             _formKey.currentState.reset();
           }
         },

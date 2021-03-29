@@ -29,6 +29,9 @@ class RenewMembershipRecordAlert extends StatefulWidget {
 
 class _RenewMembershipRecordAlertState
     extends State<RenewMembershipRecordAlert> {
+  int renewStartDay = DateTime.now().day;
+  int renewStartMonth = DateTime.now().month;
+  int renewStartYear = DateTime.now().year;
   int pointsToUse = 0;
   SubscriptionRecord subscriptionRecord = new SubscriptionRecord(
     startDate: DateTime.now(),
@@ -92,6 +95,87 @@ class _RenewMembershipRecordAlertState
             ),
             Directionality(
               textDirection: appDirection,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: Directionality(
+                      textDirection: appDirection,
+                      child: Text(
+                        sStartDate,
+                        style: kLabelTextStyle,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      new Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new TextFormField(
+                            initialValue:
+                                (renewStartDay).toString().padLeft(2, '0'),
+                            validator: dayFieldValidator,
+                            textAlign: TextAlign.right,
+                            onChanged: (text) {
+                              renewStartDay = int.parse(text);
+                            },
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateDay, hintText: 'DD'),
+                          ),
+                        ),
+                      ),
+                      new Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new TextFormField(
+                            initialValue:
+                                (renewStartMonth).toString().padLeft(2, '0'),
+                            validator: monthFieldValidator,
+                            textAlign: TextAlign.right,
+                            onChanged: (text) {
+                              renewStartMonth = int.parse(text);
+                            },
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateMonth, hintText: 'MM'),
+                          ),
+                        ),
+                      ),
+                      new Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new TextFormField(
+                            initialValue: (renewStartYear).toString(),
+                            validator: yearFieldValidator,
+                            textAlign: TextAlign.right,
+                            onChanged: (text) {
+                              renewStartYear = int.parse(text);
+                            },
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                                labelText: sBirthDateYear, hintText: 'YYYY'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Directionality(
+              textDirection: appDirection,
               child: new TextFormField(
                 validator: numberFieldValidator,
                 textAlign: TextAlign.right,
@@ -142,20 +226,25 @@ class _RenewMembershipRecordAlertState
                     ),
                     child: Text(sSave),
                     onPressed: () {
+                      widget.member.membershipStartDate = new DateTime(
+                          renewStartYear, renewStartMonth, renewStartDay);
+
+                      widget.member.membershipEndDate = new DateTime(
+                          renewStartYear, renewStartMonth, renewStartDay);
+                      //Update the record
+                      subscriptionRecord.startDate =
+                          widget.member.membershipStartDate;
+                      subscriptionRecord.endDate =
+                          widget.member.membershipEndDate;
                       if (_proccedKey.currentState.validate()) {
                         //Update the member
-                        widget.member
-                            .updateMembership(monthsToAdd: monthsToAdd);
+                        widget.member.updateMembership(
+                            newStartDate: widget.member.membershipStartDate,
+                            monthsToAdd: monthsToAdd);
                         widget.member.updateBalance(
                           paidPrice: subscriptionRecord.paidPrice,
                           requestedPrice: subscriptionRecord.requestedPrice,
                         );
-
-                        //Update the record
-                        subscriptionRecord.startDate =
-                            widget.member.membershipStartDate;
-                        subscriptionRecord.endDate =
-                            widget.member.membershipEndDate;
 
                         widget.member.history.add(subscriptionRecord);
                         editUserFromFirebase(widget.member);

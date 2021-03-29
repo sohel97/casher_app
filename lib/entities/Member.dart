@@ -49,7 +49,7 @@ class Member {
     this.healthCareApproval = false;
     this.birthDate = DateTime.now();
     this.membershipStartDate = DateTime.now();
-    this.membershipEndDate = DateTime.now();
+    this.membershipEndDate;
     this.freezedDays = 0;
   }
 
@@ -141,11 +141,15 @@ class Member {
     this.earnedCredits += (paidPrice / 10).round();
   }
 
-  void updateMembership({int monthsToAdd = 0, int daysToAdd = 0}) {
-    if (this.membershipEndDate.isBefore(DateTime.now())) {
-      this.membershipStartDate = DateTime.now();
-      this.membershipEndDate = DateTime(DateTime.now().year,
-          DateTime.now().month + monthsToAdd, DateTime.now().day + daysToAdd);
+  void updateMembership(
+      {DateTime newStartDate = null, int monthsToAdd = 0, int daysToAdd = 0}) {
+    if (newStartDate == null) newStartDate = DateTime.now();
+    if (this.membershipEndDate == null ||
+        this.membershipEndDate.isBefore(newStartDate)) {
+      print('newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+      this.membershipStartDate = newStartDate;
+      this.membershipEndDate = DateTime(newStartDate.year,
+          newStartDate.month + monthsToAdd, newStartDate.day + daysToAdd);
     } else {
       this.membershipEndDate = DateTime(
           this.membershipEndDate.year,

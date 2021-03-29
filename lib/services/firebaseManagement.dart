@@ -40,7 +40,12 @@ void addUserToFirebase(Member newMem) {
         .child("Planners")
         .child("Customers")
         .child(newMem.idNumber)
-        .set({"firstName": newMem.firstName, "lastName": newMem.lastName});
+        .set({
+      "firstName": newMem.firstName,
+      "lastName": newMem.lastName,
+      "idNumber": newMem.idNumber,
+      "plansHistory": 0
+    });
   } else {
     FirebaseDatabase()
         .reference()

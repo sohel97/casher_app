@@ -41,7 +41,7 @@ String yearFieldValidator(String value) {
       return sPleaseEnterText;
     }
     var val = int.parse(value);
-    if (val >= 1940 && val <= 2020) {
+    if (val >= 1940 && val <= 2030) {
       return null;
     }
   } catch (e) {}

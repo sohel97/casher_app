@@ -42,6 +42,7 @@ String sCancel = 'الغاء';
 String sAreYouSureYouWantToDeleteTheUser =
     "هل انت متاكد انك تريد ازالة بيانات المستخدم";
 String sDeleteUserData = "ازالة بيانات المستخدم";
+String sSavedSuccessfully = "تم الحفظ بنجاح!";
 
 /// ***************************Pages Strings************************************/
 String sAppName = 'كنتري التوت';
@@ -80,6 +81,7 @@ String sBirthDate = ' تاريخ الولادة';
 String sBirthDateDay = 'اليوم';
 String sBirthDateMonth = 'الشهر';
 String sBirthDateYear = 'السنة';
+String sStartDate = 'تاريخ بداية الاشتراك';
 
 /// ****************************Records Strings*********************************/
 String sPaymentRecord = 'دفع مبلغ';
@@ -101,3 +103,4 @@ String sUNFreezeMembershipAlert = 'تفعيل الاشتراك';
 String sCompensationDays = 'ايام';
 String sCompensationMonths = 'اشهر';
 String sFreezedMemberships = 'الاشتراكات المجمدة';
+String sPremadePlansDirection = 'Planners/premadePlans';
